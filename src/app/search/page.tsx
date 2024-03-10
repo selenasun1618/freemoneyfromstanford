@@ -1,47 +1,74 @@
 import { useFormState } from "react-dom";
+import { z } from "zod"
+import {AcademicPosition, ParsedFormData, RepresentingVSO, SearchState, SortBy, SortOrder} from "@/internal/types";
+import {FieldNames, Limits} from "@/constants/search";
+import {embeddingsCache} from "@/internal/cache";
+import {generateEmbedding, search} from "@/internal/search";
 
-export enum AcademicPosition {
-    Undergraduate = 'Undergraduate',
-    MastersStudent = 'MastersStudent',
-    Coterm = 'Coterm',
-    PhD = 'PhD',
-    Postdoc = 'Postdoc',
-    Faculty = 'Faculty',
-    Other = 'Other',
-}
+const formDataCompositeSchema = z.object({
+    searchString: z.string().max(Limits.MAX_SEARCH_LENGTH),
+    position: AcademicPosition.schema,
+    representingVSO: RepresentingVSO.schema,
+    filterMinAmount: z.boolean(),
+    minAmount: z.string()
+        .transform((x: string) : string|null => x == '' ? null : x)
+        .pipe(z.number().nonnegative().multipleOf(0.01).finite().safe().nullable()),
+    sortBy: SortBy.schema,
+    sortOrder: SortOrder.schema,
+}).transform((x: ParsedFormData) : ParsedFormData => {
+    if(x.filterMinAmount && x.minAmount === null)
+        return { ...x, minAmount: 0 }
+    return x
+})
 
-export enum VSOType {
-    Undergraduate,
-    Graduate,
-    None
+async function doSearch(state: SearchState, formData: FormData): Promise<SearchState> {
+    'use server';
+    const rawFormData: {[K in keyof ParsedFormData]: FormDataEntryValue | null} = {
+        searchString: formData.get(FieldNames.SEARCH_STRING),
+        position: formData.get(FieldNames.POSITION),
+        representingVSO: formData.get(FieldNames.REPRESENTING_VSO),
+        filterMinAmount: formData.get(FieldNames.FILTER_MIN_AMOUNT),
+        minAmount: formData.get(FieldNames.MIN_AMOUNT),
+        sortBy: formData.get(FieldNames.SORT_BY),
+        sortOrder: formData.get(FieldNames.SORT_ORDER),
+    };
+
+    let parseResult = formDataCompositeSchema.safeParse(rawFormData)
+    if(!parseResult.success) {
+        throw new Error("failed to parse submitted search parameters")
+    }
+    let data: ParsedFormData = parseResult.data;
+
+    let searchEmbedding = await embeddingsCache.getOrElse(data.searchString, generateEmbedding)
+    let results = await search(searchEmbedding, data)
+
+    return {
+        searchResults: results,
+        ...data,
+    } as SearchState
 }
 
 function SearchPanel() {
-    type SearchState = {
-        searchString: string,
-        position: AcademicPosition,
-        representingVSO: VSOType,
-
-    }
-
-    let [searchState, searchAction] = useFormState(runSearch, {
+    let [searchState, searchAction] = useFormState<SearchState, FormData>(doSearch, {
         searchString: '',
-        position: AcademicPosition.Other,
-        representingVSO: VSOType.None,
-    });
+        position: AcademicPosition.defaultValue,
+        representingVSO: RepresentingVSO.defaultValue,
 
-    async function runSearch(state: SearchState, formData: FormData) {
-        'use server';
-        const rawFormData = {
+        filterMinAmount: false,
+        minAmount: null,
 
-        };
-    }
+        searchResults: [],
 
+        sortBy: SortBy.defaultValue,
+        sortOrder: SortOrder.defaultValue,
+    } as SearchState);
+
+    return (
     <form className="flex flex-col grow bg-slate-100 p-4 gap-4 mb-4" action={searchAction}>
 
         <div className="my-2 mx-3 flex flex-row grow">
-            <input type="search" placeholder="Search grants..." enterKeyHint="Search"
-                   name="f-search"
+            <input type="search" placeholder="Search grants..." enterKeyHint="search"
+                   name={FieldNames.SEARCH_STRING}
                    className="rounded-l-3xl py-3 pl-6 pr-3 flex-grow bg-slate-200 text-slate-900 focus:outline-rose-500"
                    value={searchState.searchString}
                    aria-label="Search grants"
@@ -54,53 +81,54 @@ function SearchPanel() {
         <fieldset>
             <legend>Please select your academic position:</legend>
             <div className="flex flex-row flex-wrap gap-3">
-                {% for ident in identity_list %}
-                <label>
-                    <input type="radio" name="f-ident" value="{{ ident.form_value() }}"
-                           {% if ident.is_eq(selected_identity) %} checked {% endif %}
-                    />
-                    {{ident.form_label()}}
-                </label>
-                {% endfor %}
+                { AcademicPosition.values.map(item =>
+                    (
+                        <label>
+                            <input type="radio" name={FieldNames.POSITION}
+                                   value={item}
+                                   checked={searchState.position === item}
+                            />
+                            { item }
+                        </label>
+                    )
+                ) }
             </div>
         </fieldset>
-        <div>
-            <label>
-                <!-- TODO: difference between undergraduate vs. graduate VSOs, other types? -->
-                <input type="checkbox" name="f-repr-vso" {% if representing_vso %} checked {% endif %} />
-                I'm seeking a grant as part of the leadership of a VSO.
-            </label>
-        </div>
+        <fieldset>
+            <legend>I'm seeking a grant as part of the leadership of a VSO</legend>
+            { RepresentingVSO.values.map(item =>
+                (
+                    <label>
+                        { /* TODO: difference between undergraduate vs. graduate VSOs, other types.ts? */ }
+                        <input type="radio" name={FieldNames.REPRESENTING_VSO}
+                               value={item}
+                               checked={searchState.representingVSO === item} />
+                        {item === RepresentingVSO.Enum.None ? 'No' : `Yes (${item} VSO)`}
+                    </label>
+                )
+            ) }
+        </fieldset>
 
         <div>
             <input type="checkbox" id="FMFS_search_amount_limits" name="f-filter-amount"
-                   {% if filter_amount.0 %} checked {% endif %} />
+                  checked={searchState.filterMinAmount} />
             <label htmlFor="FMFS_search_amount_limits" className="ml-6">Filter by grant amount</label><br/>
             <div className="border border-slate-600 p-4">
-                <label htmlFor="FMFS_search_amount_min">Minimum:</label>
-                <!-- px-6 so the rounding works proper -->
+                <label htmlFor="FMFS_search_amount_min">Minimum award:</label>
+                { /* px-6 so the rounding works proper */ }
                 <input type="text" inputMode="numeric" id="FMFS_search_amount_min" name="f-filter-lowest"
                        className="rounded-3xl py-3 px-6 w-48 bg-slate-200 text-slate-900 focus:outline-rose-500"
                        placeholder="Minimum (USD)"
-                       {% if filter_amount.0 %}
-                       value="{{ filter_amount.1 }}"
-                       {% endif %}
-                />
-                &nbsp;/&nbsp;
-                <label htmlFor="FMFS_search_amount_max">Maximum:</label>
-                <input type="text" inputMode="numeric" id="FMFS_search_amount_max" name="f-filter-highest"
-                       className="rounded-3xl py-3 px-6 w-48 bg-slate-200 text-slate-900 focus:outline-rose-500"
-                       placeholder="Maximum (USD)"
-                       {% if filter_amount.0 %}
-                       value="{{ filter_amount.2 }}"
-                       {% endif %}
+                       disabled={!searchState.filterMinAmount}
+                       value={searchState.minAmount?.toString() ?? ''}
                 />
             </div>
         </div>
 
+        { /*
         <div>
             <input type="checkbox" id="FMFS_search_deadline" name="f-filter-deadline"
-                   {% if filter_deadline.0 %} checked {% endif %} />
+                   checked={} />
             <label htmlFor="FMFS_search_deadline" className="ml-6">Filter by deadline</label>
             <div className="border border-slate-600 p-4">
                 <label htmlFor="FMFS_search_deadline_soonest">Earliest:</label>
@@ -114,22 +142,19 @@ function SearchPanel() {
                 />
             </div>
         </div>
+        */ }
 
         <div className="border border-slate-600 p-4 md:flex gap-6">
             <fieldset className="inline">
                 <legend className="float-left mr-2"><b>Sort results by:</b></legend>
                 <label>
                     <input type="radio" name="f-sort-by" value="amount"
-                           {% if sorting_pref.sort_by == SortByField::Amount %}
-                           checked
-                           {% endif %} />
+                           checked={searchState.sortBy === SortBy.Enum.Amount} />
                     Award
                 </label>
                 <label>
                     <input type="radio" name="f-sort-by" value="deadline"
-                           {% if sorting_pref.sort_by == SortByField::Deadline %}
-                           checked
-                           {% endif %} />
+                           checked={searchState.sortBy === SortBy.Enum.Deadline} />
                     Deadline
                 </label>
             </fieldset>
@@ -137,12 +162,12 @@ function SearchPanel() {
                 <legend className="float-left mr-2"><b>In order:</b></legend>
                 <label>
                     <input type="radio" id="FMFS_sort_ascending" name="f-sort-order" value="ascending"
-                           {% if sorting_pref.sort_dir == SortDirection::Ascending %} checked {% endif %} />
+                           checked={searchState.sortOrder === SortOrder.Enum.Ascending} />
                     Ascending
                 </label>
                 <label>
                     <input type="radio" id="FMFS_sort_descending" name="f-sort-order" value="descending"
-                           {% if sorting_pref.sort_dir == SortDirection::Descending %} checked {% endif %} />
+                           checked={searchState.sortOrder === SortOrder.Enum.Descending} />
                     Descending
                 </label>
             </fieldset>
@@ -153,6 +178,7 @@ function SearchPanel() {
         </div>
 
     </form>
+    )
 }
 
 export default function SearchPage() {
