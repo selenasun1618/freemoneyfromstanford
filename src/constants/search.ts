@@ -10,7 +10,7 @@ export const FieldNames = {
 
 export const Limits = {
     MAX_SEARCH_LENGTH: 256,
-    // Vercel Postgres Hobby plan caps at 256MB storage;
-    // and empirical testing indicates that we can stuff about 40k embedings in <200MB
-    MAX_EMBEDDING_CACHE: 40000,
+    // empirical testing indicates that we can stuff about 40k embeddings in <200MB
+    MAX_PERSISTENT_EMBEDDING_CACHE: 40000,
+    MAX_TRANSIENT_EMBEDDING_CACHE: 40000,
 }

@@ -22,14 +22,21 @@ class AsyncCache<K,V> implements AsyncCacheInternal<K,V> {
 interface AsyncCacheInternal<K,V> {
     get(key: K): Promise<V|null>
 }
+
+interface PersistentCacheConfig {
+    readonly maxPersistentItems: number,
+    readonly maxTransientItems: number,
+    readonly mode: 'lru',
+}
+
+// EMBEDDINGS CACHE
+
 class EmbeddingsCache implements AsyncCacheInternal<string, EmbeddingType> {
-    limit : number
+    config: PersistentCacheConfig
     // TODO persistent cache hookup
 
-    constructor(config: {
-        limit: number,
-    }) {
-        this.limit = config.limit
+    constructor(config: PersistentCacheConfig) {
+        this.config = config
     }
 
     async get(key: string): Promise<EmbeddingType|null> {
@@ -39,6 +46,8 @@ class EmbeddingsCache implements AsyncCacheInternal<string, EmbeddingType> {
 }
 
 export const embeddingsCache: AsyncCache<string, EmbeddingType> = new AsyncCache(new EmbeddingsCache({
-    limit: Limits.MAX_EMBEDDING_CACHE
+    maxPersistentItems: Limits.MAX_PERSISTENT_EMBEDDING_CACHE,
+    maxTransientItems: Limits.MAX_TRANSIENT_EMBEDDING_CACHE,
+    mode: "lru"
 }))
 
