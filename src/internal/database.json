@@ -67,5 +67,65 @@
         "url": "https://seedfunding.stanford.edu/opportunities/sci-2024-equity-impact-research-grants",
         "deadline": "2024-05-03T17:00-08:00",
         "next_cycle_start": "2024-03-03T00:00-08:00"
+    },
+    "6": {
+        "title": "2024-2025 Stanford Impact Labs Design Fellowship",
+        "description": "Fellows participate in a monthly workshop, receive $50,000 in seed funding, and benefit from the specialized attention of Stanford Impact Labs professional staff who provide input on problem definition, partnerships, team design, and communication. The fellowship supports faculty, with funding and guidance, to conceptualize a new research project that seeks to develop tangible solutions to a social problem, by working in collaboration with an external partner. For the 2024-2025 cohort, the Stanford Doerr School of Sustainability (SDSS) is sponsoring up to 3 positions in the fellowship for SDSS faculty. The Institute for Advancing Just Societies is sponsoring up to 2 positions in the fellowships for projects that address inequalities related to race and ethnicity, broadly conceived, that register locally, nationally, or globally. Evaluation process and criteria are the same for all applicants. Fellowship Program Once a month, fellows gather for a three-hour, interactive, activity- and discussion-based workshop.",
+        "eligibility": ["Faculty"],
+        "amount_min": 50000,
+        "amount_max": 50000,
+        "url": "https://impact.stanford.edu/offer/2024-2025-stanford-impact-labs-design-fellowship",
+        "deadline": "2024-05-20T23:59-08:00",
+        "next_cycle_start": ""
+    },
+    "7": {
+        "title": "Conference Grant",
+        "description": "Conference Grants support students who have been accepted to *present* at professional/scholarly convenings that have (1) competitive peer-reviewed selection processes and (2) attract a multi-generational body of presenters (not undergraduate-only conferences) Students are eligible to receive only one Conference Grant per academic year Graduating seniors can apply for conference grant funding to present at a conference that takes place within one quarter (including summer) of degree conferral. Co-terms who have not conferred their undergraduate degree may apply if the project fits into their undergraduate academic trajectory, e.g., honors thesis, capstone project, etc. Students paying graduate tuition are ineligible.",
+        "eligibility": ["Undergraduate", "Coterm"],
+        "amountMin": 0,
+        "amountMax": 1500,
+        "url": "https://undergradresearch.stanford.edu/fund-your-project/explore-student-grants/conference",
+        "deadline": "2024-05-01T23:59-08:00",
+        "nextCycleStartDate": "2023-10-01T00:00-08:00"
+    },
+    "8": {
+        "title": "Chappell Lougee Scholarship",
+        "description": "Chappell Lougee Scholarships provide a 10-week stipend for Sophomores pursuing full-time immersive projects in the humanities, creative arts, and qualitative social sciences. Chappell Lougee Scholars receive mentorship from current PhD students as they prepare for their projects in the Spring and conduct their projects in the Summer. Decisions are made in the first half of Winter Quarter.",
+        "eligibility": ["Undergraduate"],
+        "amountMin": 7500,
+        "amountMax": 9000,
+        "url": "https://undergradresearch.stanford.edu/fund-your-project/explore-student-grants/chappell-lougee",
+        "deadline": "",
+        "nextCycleStartDate": "2023-10-01T00:00-08:00"
+    },
+    "9": {
+        "title": "The William W. and Janet F. Crandall Beagle II Award",
+        "description": "The William W. and Janet F. Crandall Beagle II Award acknowledges exemplary undergraduate student research projects that embody discovery, exploration, possess a strong intellectual curiosity, a passionate interest in a particular subject, and a keen spirit of intellectual adventure.",
+        "eligibility": ["Undergraduate"],
+        "amountMin": -1,
+        "amountMax": -1,
+        "url": "https://undergradresearch.stanford.edu/fund-your-project/explore-student-grants/beagleII",
+        "deadline": "",
+        "nextCycleStartDate": ""
+    },
+    "10": {
+        "title": "Small Grant",
+        "description": "Small Grants support smaller independent student-driven projects, and can also be used to enable a particular phase of a larger-scale effort. Application deadlines are quarterly. You should plan to apply for funding *at least one quarter in advance* of your project's start date. Project activities must reflect future project activities; for example, Autumn Small Grants largely fund project activities to be completed in Winter or Spring quarter. We do not fund projects retroactively. Decisions are typically made within 6 weeks, and funding is disbursed approximately 3 weeks from award announcements.",
+        "eligibility": ["Undergraduate", "Coterm"],
+        "amountMin": 0,
+        "amountMax": 1500,
+        "url": "https://undergradresearch.stanford.edu/fund-your-project/explore-student-grants/small",
+        "deadline": "",
+        "nextCycleStartDate": "2025-02-12T00:00-08:00"
+      },
+    "11": {
+        "title": "Major Grant",
+        "description": "Major grants support student-driven, full-time immersive projects supported by a faculty mentor, with priority given to Juniors. Major Grants provide a 10-week stipend in support of full-time immersive Summer project commitments Most Major Grants are awarded to students beginning an honors thesis, a senior project in the arts, or senior synthesis project between their junior and senior years. Decisions are typically made within 6 weeks. Funding is usually disbursed Week 1 of the quarter in which the project is executed. Major Grant proposals should not exceed a word count of 2,500. The proposal summary, reference list, and appendices do not count toward the word count. Human Subjects Research - IRB protocol submission: If you are doing a project involving interviewing, observing, or otherwise working with human subjects, you must determine if your project requires Institutional Review Board (IRB) review. Animal Subjects Research - one-paragraph appendix: If your research involves animal subjects of any kind (vertebrate or invertebrate), you must include an Animal Subjects Research Appendix in your application. Field contact letter: For students interviewing individuals and/or partnering with off-campus organizations for their projects (e.g. archives, hospitals, nonprofits, community organizations), you must submit in your grant application a brief letter of support from your field contact to demonstrate that you have established communication and are equipped to execute the project with their support. International Travel Safety Plan: A project or conference that involves international travel is required to have an International Travel Safety Plan.",
+        "eligibility": ["Undergraduate", "Coterm"],
+        "amountMin": 7500,
+        "amountMax": 9000,
+        "url": "",
+        "deadline": "",
+        "nextCycleStartDate": "2025-01-01T00:00-08:00"
     }
 }
