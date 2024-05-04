@@ -68,6 +68,7 @@ export async function search(searchEmbedding: EmbeddingType, parsedFormData: Par
 
     const results: SearchResult[] = topResults.map(([index, _]) => {
         const { embedding, ...rest } = database.grants[index];
+        // TODO put into SearchResults format
         return rest as SearchResult;
     });
 
