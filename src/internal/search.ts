@@ -1,5 +1,6 @@
 'use server';
 import * as fs from 'fs';
+import path from 'path';
 import * as util from 'util';
 
 import {ParsedFormData, SearchResult, SearchState} from "@/internal/types";
@@ -10,7 +11,8 @@ import { OpenAI } from 'openai';
 
 export type EmbeddingType = number[]
 const client = new OpenAI();
-let database: any = null;
+let grantsData: any = null;
+let embeddingsData: any = null;
 
 export async function generateEmbedding(searchString: string): Promise<EmbeddingType> {
     try {
@@ -50,27 +52,36 @@ async function readDataFromFile(filePath: string): Promise<any> {
 }
 
 export async function search(searchEmbedding: EmbeddingType, parsedFormData: ParsedFormData): Promise<SearchResult[]> {
-    if (database === null) {
-        const dataPath = 'src/internal/database.json';
-        database = await readDataFromFile(dataPath);
+    
+    if (grantsData === null) {
+        const dataPath = path.join(__dirname, 'database.json');
+        grantsData = await readDataFromFile(dataPath);
+    }
+
+    if (embeddingsData === null) {
+        const embeddingsPath = path.join(__dirname, 'embeddings.json');
+        embeddingsData = await readDataFromFile(embeddingsPath);
     }
     
-    let cosineSimilarities: Array<[number, number]> = database.grants.map((grant: any, index: number) => {
-        const embedding = grant.embedding as EmbeddingType;
-        return [index, cosineSimilarity(embedding, searchEmbedding)];
-    });
+    let cosineSimilarities: Array<[string, number]> = [];
+    for (const [id, embedding] of Object.entries(embeddingsData as Record<string, EmbeddingType>)) {
+        const similarity = cosineSimilarity(embedding, searchEmbedding);
+        cosineSimilarities.push([id, similarity]);
+    }
 
     cosineSimilarities.sort((a, b) => b[1] - a[1]);
 
     // Remove results where cosine similarities < 0
     const topResults = cosineSimilarities.filter(item => item[1] >= 0);
 
-    const results: SearchResult[] = topResults.map(([index, _]) => {
-        const { embedding, ...rest } = database.grants[index];
-        // TODO put into SearchResults format
-        return rest as SearchResult;
+    const prelimResults: SearchResult[] = topResults.map(([id, _]) => grantsData[id]);
+    const results: SearchResult[] = prelimResults.map(result => {
+        return {
+            ...result,
+            deadline: new Date(result.deadline),
+            nextCycleStartDate: new Date(result.nextCycleStartDate) // TODO, what happens with empty date
+        };
     });
-
     return results;
 }
 

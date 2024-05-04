@@ -35,11 +35,11 @@ export namespace SortOrder {
 export type SearchResult = {
     title: string,
     description: string,
+    eligibility: string[]
     amountMin: number,
     amountMax: number,
     url: string,
-    currentDeadline: Date,
-    remainingTime: Date,
+    deadline: Date,
     nextCycleStartDate: Date
 }
 

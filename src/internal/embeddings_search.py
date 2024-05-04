@@ -1,17 +1,19 @@
 import json
+import os
 import numpy as np
 import copy
 from openai import OpenAI
 
 # ["Undergraduate", "MastersStudent", "Coterm", "PhD", "Postdoc", "Faculty", "VSO", "Other"]
 
-def search(data, query_embedding):
+def search(query_embedding):
     
+    data = os.path.join(os.path.dirname(__file__),'..', 'database.json')
+    embeddings = os.path.join(os.path.dirname(__file__),'..', 'embeddings.json')
     cosine_similarities = []
 
-    for i, grant in enumerate(data['grants']):
-        embedding = grant['embedding']
-        cosine_similarities.append([i, np.dot(embedding, query_embedding) / (np.linalg.norm(embedding) * np.linalg.norm(query_embedding))])
+    for id, embedding in embeddings.items():
+        cosine_similarities.append([id, np.dot(embedding, query_embedding) / (np.linalg.norm(embedding) * np.linalg.norm(query_embedding))])
     
     cosine_similarities.sort(key=lambda x: x[1], reverse=True)    
     
@@ -20,12 +22,9 @@ def search(data, query_embedding):
 
     results = []
     data_copy = copy.deepcopy(data)
-    for i, _ in top_results:
-        del data_copy['grants'][i]['embedding']
-        entry = data_copy['grants'][i]
+    for id, _ in top_results:
+        entry = data_copy[id]
         results.append(entry)
-
-        print(f'{entry}\n\n')
 
     return results
 
