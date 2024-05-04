@@ -6,14 +6,20 @@ class AsyncCache<K,V> implements AsyncCacheInternal<K,V> {
     constructor(inner: AsyncCacheInternal<K, V>) {
         this.inner = inner
     }
-    get(key: K): Promise<V | null> {
-        return this.inner.get(key)
+    async insert(key: K, val: V): Promise<void> {
+        await this.inner.insert(key, val)
+    }
+    async get(key: K): Promise<V | null> {
+        return await this.inner.get(key)
     }
     async getOrElse(key: K, fallback: (key: K) => Promise<V>): Promise<V> {
         return this.inner.get(key).then(
             async (x) => {
-                if(x === null)
-                    return await fallback(key)
+                if(x === null) {
+                    let result = await fallback(key)
+                    await this.inner.insert(key, result)
+                    return result
+                }
                 return x
             }
         )
@@ -21,6 +27,7 @@ class AsyncCache<K,V> implements AsyncCacheInternal<K,V> {
 }
 interface AsyncCacheInternal<K,V> {
     get(key: K): Promise<V|null>
+    insert(key: K, val: V): Promise<void>
 }
 
 interface PersistentCacheConfig {
@@ -37,6 +44,11 @@ class EmbeddingsCache implements AsyncCacheInternal<string, EmbeddingType> {
 
     constructor(config: PersistentCacheConfig) {
         this.config = config
+    }
+
+    async insert(key: string, val: unknown): Promise<void> {
+        // TODO add functionality
+        return
     }
 
     async get(key: string): Promise<EmbeddingType|null> {

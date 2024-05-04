@@ -1,4 +1,4 @@
-type ResultItemProps = {
+export type ResultItemProps = {
     title: string,
     description: string,
     amountMin: number,
@@ -11,7 +11,7 @@ type ResultItemProps = {
     nextCycle: string,
 }
 
-function ResultItem(item: Readonly<ResultItemProps>): React.ReactElement {
+export function ResultItem(item: Readonly<ResultItemProps>): React.ReactElement {
     return (
         <li className="w-full p-4 flex flex-col md:flex-row border border-sky-400">
             <div className="w-auto">

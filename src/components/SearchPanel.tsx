@@ -1,22 +1,34 @@
-import {AcademicPosition, RepresentingVSO, SearchState, SortBy, SortOrder} from "@/internal/types";
+import {AcademicPosition, RepresentingVSO, SearchResult, SearchState, SortBy, SortOrder} from "@/internal/types";
 import {FieldNames} from "@/constants/search";
+import {Dispatch, SetStateAction} from "react";
 
 export namespace SearchPanel {
     export type Props = {
-        searchState: SearchState,
-        searchAction: (payload: FormData) => void,
+        state: SearchState,
+        setState: Dispatch<SetStateAction<SearchState>>,
+        searchAction: (x: FormData) => Promise<SearchResult[]>,
     }
 }
-export function SearchPanel({searchState, searchAction}: SearchPanel.Props) {
+export function SearchPanel({state, setState, searchAction}: SearchPanel.Props) {
+    async function action(fd: FormData) {
+        let results = await searchAction(fd)
+        setState((prev) => { return {
+            ...prev,
+            searchResults: results,
+        } })
+    }
     return (
         <form className="flex flex-col grow bg-slate-100 p-4 gap-4 mb-4" action={searchAction}>
-
             <div className="my-2 mx-3 flex flex-row grow">
                 <input type="search" placeholder="Search grants..." enterKeyHint="search"
                        name={FieldNames.SEARCH_STRING}
                        className="rounded-l-3xl py-3 pl-6 pr-3 flex-grow bg-slate-200 text-slate-900 focus:outline-rose-500"
-                       value={searchState.searchString}
+                       value={state.searchString}
                        aria-label="Search grants"
+                       onChange={(e) => setState(prev => { return {
+                           ...prev,
+                           searchString: e.target.value
+                       } } )}
                 />
                 <input type="submit" value="Search"
                        className="rounded-r-3xl py-3 px-4 bg-rose-500 text-rose-50"
@@ -31,7 +43,11 @@ export function SearchPanel({searchState, searchAction}: SearchPanel.Props) {
                             <label>
                                 <input type="radio" name={FieldNames.POSITION}
                                        value={item}
-                                       checked={searchState.position === item}
+                                       checked={state.position === item}
+                                       onChange={(e) => setState(prev => { return {
+                                           ...prev,
+                                           position: e.target.value as AcademicPosition.Type
+                                       }})}
                                 />
                                 { item }
                             </label>
@@ -47,7 +63,12 @@ export function SearchPanel({searchState, searchAction}: SearchPanel.Props) {
                             { /* TODO: difference between undergraduate vs. graduate VSOs, other types.ts? */ }
                             <input type="radio" name={FieldNames.REPRESENTING_VSO}
                                    value={item}
-                                   checked={searchState.representingVSO === item} />
+                                   checked={state.representingVSO === item}
+                                   onChange={e => setState(prev=> { return {
+                                       ...prev,
+                                       representingVSO: e.target.value as RepresentingVSO.Type
+                                   }})}
+                            />
                             {item === RepresentingVSO.Enum.None ? 'No' : `Yes (${item} VSO)`}
                         </label>
                     )
@@ -56,7 +77,12 @@ export function SearchPanel({searchState, searchAction}: SearchPanel.Props) {
 
             <div>
                 <input type="checkbox" id="FMFS_search_amount_limits" name={FieldNames.FILTER_MIN_AMOUNT}
-                       checked={searchState.filterMinAmount} />
+                       checked={state.filterMinAmount}
+                       onChange={e => setState(prev => { return {
+                           ...prev,
+                           filterMinAmount: e.target.checked
+                       }})}
+                />
                 <label htmlFor="FMFS_search_amount_limits" className="ml-6">Filter by grant amount</label><br/>
                 <div className="border border-slate-600 p-4">
                     <label htmlFor="FMFS_search_amount_min">Minimum award:</label>
@@ -64,8 +90,12 @@ export function SearchPanel({searchState, searchAction}: SearchPanel.Props) {
                     <input type="text" inputMode="numeric" id="FMFS_search_amount_min" name={FieldNames.MIN_AMOUNT}
                            className="rounded-3xl py-3 px-6 w-48 bg-slate-200 text-slate-900 focus:outline-rose-500"
                            placeholder="Minimum (USD)"
-                           disabled={!searchState.filterMinAmount}
-                           value={searchState.minAmount?.toString() ?? ''}
+                           disabled={!state.filterMinAmount}
+                           value={state.minAmount?.toFixed(2) ?? ''}
+                           onChange={e => setState(prev => { return {
+                               ...prev,
+                               minAmount: parseFloat(parseFloat(e.target.value).toFixed(2))
+                           }})}
                     />
                 </div>
             </div>
@@ -75,12 +105,12 @@ export function SearchPanel({searchState, searchAction}: SearchPanel.Props) {
                     <legend className="float-left mr-2"><b>Sort results by:</b></legend>
                     <label>
                         <input type="radio" name={FieldNames.SORT_BY} value="amount"
-                               checked={searchState.sortBy === SortBy.Enum.Amount} />
+                               checked={state.sortBy === SortBy.Enum.Amount} />
                         Award
                     </label>
                     <label>
                         <input type="radio" name={FieldNames.SORT_BY} value="deadline"
-                               checked={searchState.sortBy === SortBy.Enum.Deadline} />
+                               checked={state.sortBy === SortBy.Enum.Deadline} />
                         Deadline
                     </label>
                 </fieldset>
@@ -88,12 +118,12 @@ export function SearchPanel({searchState, searchAction}: SearchPanel.Props) {
                     <legend className="float-left mr-2"><b>In order:</b></legend>
                     <label>
                         <input type="radio" name={FieldNames.SORT_ORDER} value="ascending"
-                               checked={searchState.sortOrder === SortOrder.Enum.Ascending} />
+                               checked={state.sortOrder === SortOrder.Enum.Ascending} />
                         Ascending
                     </label>
                     <label>
                         <input type="radio" name={FieldNames.SORT_ORDER} value="descending"
-                               checked={searchState.sortOrder === SortOrder.Enum.Descending} />
+                               checked={state.sortOrder === SortOrder.Enum.Descending} />
                         Descending
                     </label>
                 </fieldset>
