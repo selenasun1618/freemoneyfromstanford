@@ -1,6 +1,6 @@
 import {AcademicPosition, RepresentingVSO, SearchResult, SearchState, SortBy, SortOrder} from "@/internal/types";
 import {FieldNames} from "@/constants/search";
-import {Dispatch, SetStateAction} from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 
 export namespace SearchPanel {
     export type Props = {
@@ -17,6 +17,7 @@ export function SearchPanel({state, setState, searchAction}: SearchPanel.Props) 
             searchResults: results,
         } })
     }
+    let [minAmount, setMinAmount] = useState('0.00');
     return (
         <form className="flex flex-col grow bg-slate-100 p-4 gap-4 mb-4" action={searchAction}>
             <div className="my-2 mx-3 flex flex-row grow">
@@ -31,7 +32,7 @@ export function SearchPanel({state, setState, searchAction}: SearchPanel.Props) 
                        } } )}
                 />
                 <input type="submit" value="Search"
-                       className="rounded-r-3xl py-3 px-4 bg-rose-500 text-rose-50"
+                       className="rounded-r-3xl py-3 px-4 bg-rose-500 text-rose-50 cursor-pointer"
                 />
             </div>
 
@@ -59,7 +60,7 @@ export function SearchPanel({state, setState, searchAction}: SearchPanel.Props) 
                 <legend>I'm seeking a grant as part of the leadership of a VSO</legend>
                 { RepresentingVSO.values.map(item =>
                     (
-                        <label>
+                        <label key={item}>
                             { /* TODO: difference between undergraduate vs. graduate VSOs, other types.ts? */ }
                             <input type="radio" name={FieldNames.REPRESENTING_VSO}
                                    value={item}
@@ -76,26 +77,40 @@ export function SearchPanel({state, setState, searchAction}: SearchPanel.Props) 
             </fieldset>
 
             <div>
-                <input type="checkbox" id="FMFS_search_amount_limits" name={FieldNames.FILTER_MIN_AMOUNT}
-                       checked={state.filterMinAmount}
-                       onChange={e => setState(prev => { return {
-                           ...prev,
-                           filterMinAmount: e.target.checked
-                       }})}
-                />
-                <label htmlFor="FMFS_search_amount_limits" className="ml-6">Filter by grant amount</label><br/>
+                {/*<input type="checkbox" id="FMFS_search_amount_limits" name={FieldNames.FILTER_MIN_AMOUNT}*/}
+                {/*       checked={state.filterMinAmount}*/}
+                {/*       onChange={e => setState(prev => { return {*/}
+                {/*           ...prev,*/}
+                {/*           filterMinAmount: e.target.checked*/}
+                {/*       }})}*/}
+                {/*/>*/}
+                {/*<label htmlFor="FMFS_search_amount_limits" className="ml-6">Filter by grant amount</label><br/>*/}
                 <div className="border border-slate-600 p-4">
                     <label htmlFor="FMFS_search_amount_min">Minimum award:</label>
                     { /* px-6 so the rounding works proper */ }
-                    <input type="text" inputMode="numeric" id="FMFS_search_amount_min" name={FieldNames.MIN_AMOUNT}
+                    <input type="text" inputMode="numeric" pattern="\d*\.?\d{0,2}"
+                        id="FMFS_search_amount_min" name={FieldNames.MIN_AMOUNT}
                            className="rounded-3xl py-3 px-6 w-48 bg-slate-200 text-slate-900 focus:outline-rose-500"
                            placeholder="Minimum (USD)"
-                           disabled={!state.filterMinAmount}
-                           value={state.minAmount?.toFixed(2) ?? ''}
-                           onChange={e => setState(prev => { return {
-                               ...prev,
-                               minAmount: parseFloat(parseFloat(e.target.value).toFixed(2))
-                           }})}
+                           // disabled={!state.filterMinAmount}
+                           value={minAmount}
+                           onChange={e => {
+                               if(e.target.validity.valid) {
+                                   setMinAmount(_prev => {
+                                       // console.log(e)
+                                       if ((e.target.validity.valid && Number.isFinite(parseFloat(e.target.value)))
+                                            || e.target.value === '' || e.target.value === '-') {
+                                           setState(prev => {
+                                               return {
+                                                   ...prev,
+                                                   minAmount: parseFloat(e.target.value)
+                                               }
+                                           })
+                                       }
+                                       return e.target.value
+                                   });
+                               }
+                           }}
                     />
                 </div>
             </div>
@@ -104,33 +119,53 @@ export function SearchPanel({state, setState, searchAction}: SearchPanel.Props) 
                 <fieldset className="inline">
                     <legend className="float-left mr-2"><b>Sort results by:</b></legend>
                     <label>
-                        <input type="radio" name={FieldNames.SORT_BY} value="amount"
-                               checked={state.sortBy === SortBy.Enum.Amount} />
+                        <input type="radio" name={FieldNames.SORT_BY} value={SortBy.Enum.Amount}
+                               checked={state.sortBy === SortBy.Enum.Amount}
+                               onChange={e => setState(prev => { return {
+                                   ...prev,
+                                   sortBy: SortBy.Enum.Amount
+                               }})}
+                        />
                         Award
                     </label>
                     <label>
-                        <input type="radio" name={FieldNames.SORT_BY} value="deadline"
-                               checked={state.sortBy === SortBy.Enum.Deadline} />
+                        <input type="radio" name={FieldNames.SORT_BY} value={SortBy.Enum.Deadline}
+                               checked={state.sortBy === SortBy.Enum.Deadline}
+                               onChange={e => setState(prev => { return {
+                                   ...prev,
+                                   sortBy: SortBy.Enum.Deadline
+                               }})}
+                        />
                         Deadline
                     </label>
                 </fieldset>
                 <fieldset className="inline">
                     <legend className="float-left mr-2"><b>In order:</b></legend>
                     <label>
-                        <input type="radio" name={FieldNames.SORT_ORDER} value="ascending"
-                               checked={state.sortOrder === SortOrder.Enum.Ascending} />
+                        <input type="radio" name={FieldNames.SORT_ORDER} value={SortOrder.Enum.Ascending}
+                               checked={state.sortOrder === SortOrder.Enum.Ascending}
+                               onChange={e => setState(prev => { return {
+                                   ...prev,
+                                   sortOrder: SortOrder.Enum.Ascending
+                               }})}
+                        />
                         Ascending
                     </label>
                     <label>
-                        <input type="radio" name={FieldNames.SORT_ORDER} value="descending"
-                               checked={state.sortOrder === SortOrder.Enum.Descending} />
+                        <input type="radio" name={FieldNames.SORT_ORDER} value={SortOrder.Enum.Descending}
+                               checked={state.sortOrder === SortOrder.Enum.Descending}
+                               onChange={e => setState(prev => { return {
+                                   ...prev,
+                                   sortOrder: SortOrder.Enum.Descending
+                               }})}
+                        />
                         Descending
                     </label>
                 </fieldset>
             </div>
 
             <div className="self-end">
-                <input type="reset" value="Reset" className="underline"/>
+                <input type="reset" value="Reset" className={"underline cursor-pointer"} />
             </div>
 
         </form>

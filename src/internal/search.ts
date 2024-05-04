@@ -50,9 +50,8 @@ async function readDataFromFile(filePath: string): Promise<any> {
 }
 
 export async function search(searchEmbedding: EmbeddingType, parsedFormData: ParsedFormData): Promise<SearchResult[]> {
-    
     if (database === null) {
-        const dataPath = 'database.json';
+        const dataPath = 'src/internal/database.json';
         database = await readDataFromFile(dataPath);
     }
     
@@ -84,7 +83,6 @@ export async function doSearch(formData: FormData): Promise<SearchResult[]> {
         searchString: formData.get(FieldNames.SEARCH_STRING),
         position: formData.get(FieldNames.POSITION),
         representingVSO: formData.get(FieldNames.REPRESENTING_VSO),
-        filterMinAmount: formData.get(FieldNames.FILTER_MIN_AMOUNT),
         minAmount: formData.get(FieldNames.MIN_AMOUNT),
         sortBy: formData.get(FieldNames.SORT_BY),
         sortOrder: formData.get(FieldNames.SORT_ORDER),
@@ -100,6 +98,8 @@ export async function doSearch(formData: FormData): Promise<SearchResult[]> {
     let searchEmbedding = await embeddingsCache.getOrElse(data.searchString, generateEmbedding)
     // TODO: search-level caching?
     let results = await search(searchEmbedding, data)
+
+    // throw results.map(v => JSON.stringify(v)).join(" ")
 
     return results
 }

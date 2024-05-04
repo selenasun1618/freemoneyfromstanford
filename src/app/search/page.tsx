@@ -3,7 +3,6 @@
 import { useFormState } from "react-dom";
 import {
     AcademicPosition,
-    CycleInfo,
     RepresentingVSO,
     SearchResult,
     SearchState,
@@ -13,7 +12,7 @@ import {
 import { SearchPanel } from "@/components/SearchPanel";
 import { ResultItem, ResultItemProps } from "@/components/ResultItem";
 import { doSearch } from "@/internal/search";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 // TODO: sorting without going through the form mechanism (i.e. on-page sorting)
 // TODO: make the homepage search bar go here with the correct form action
@@ -27,18 +26,20 @@ function NoResults() {
 }
 
 function Results(props: { results: SearchResult[] }) {
-    type SR = {
-        title: string,
-        description: string,
-        amountMin: number,
-        amountMax: number | string,
-        url: string,
-        deadline: Date,
-        remainingTime: Date,
-        currentCycle: CycleInfo,
-        nextCycle: CycleInfo,
-    }
+    let [now, setNow] = useState(Date.now());
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setNow(Date.now())
+        });
+
+        return () => clearInterval(interval)
+    })
+
     function SRToRIP(sr: SearchResult): ResultItemProps {
+        let remaining_time = new Date();
+        remaining_time.setTime(sr.currentDeadline.getTime() - now);
+        let remainingTime = remaining_time.toLocaleDateString();
+        let remainingTimeMachine = remaining_time.toISOString();
         return {
             amountMax: sr.amountMax,
             amountMin: sr.amountMin,
@@ -46,11 +47,10 @@ function Results(props: { results: SearchResult[] }) {
             title: sr.title,
             url: sr.url,
             // TODO
-            currentCycle: "",
-            deadlineMachine: "",
-            nextCycle: "",
-            remainingTime: "",
-            remainingTimeMachine: "",
+            deadlineMachine: sr.currentDeadline.toISOString(),
+            nextCycle: sr.nextCycleStartDate.toLocaleDateString(),
+            remainingTime,
+            remainingTimeMachine,
         }
     }
 
@@ -66,8 +66,7 @@ function SearchPage() : JSX.Element {
         position: AcademicPosition.defaultValue,
         representingVSO: RepresentingVSO.defaultValue,
 
-        filterMinAmount: false,
-        minAmount: null,
+        minAmount: 0,
 
         searchResults: [],
 

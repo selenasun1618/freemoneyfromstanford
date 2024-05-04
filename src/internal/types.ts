@@ -31,12 +31,6 @@ export namespace SortOrder {
     export const defaultValue: Type = Enum.Descending
 }
 
-export type CycleInfo = {
-    name: string,
-    start: Date,
-    end: Date,
-}
-
 // item { title description amount_min amount_max url deadline remaining_time_display() current_cycle next_cycle_range }
 export type SearchResult = {
     title: string,
@@ -44,10 +38,9 @@ export type SearchResult = {
     amountMin: number,
     amountMax: number,
     url: string,
-    deadline: Date,
+    currentDeadline: Date,
     remainingTime: Date,
-    currentCycle: CycleInfo,
-    nextCycle: CycleInfo,
+    nextCycleStartDate: Date
 }
 
 export type SearchState = {
@@ -55,8 +48,7 @@ export type SearchState = {
     position: AcademicPosition.Type,
     representingVSO: RepresentingVSO.Type,
 
-    filterMinAmount: boolean,
-    minAmount: number | null,
+    minAmount: number,
 
     searchResults: SearchResult[],
 
@@ -68,8 +60,7 @@ export interface ParsedFormData {
     readonly searchString: string
     readonly position: AcademicPosition.Type
     readonly representingVSO: RepresentingVSO.Type
-    readonly filterMinAmount: boolean
-    readonly minAmount: number | null
+    readonly minAmount: number
     readonly sortBy: SortBy.Type
     readonly sortOrder: SortOrder.Type
 }

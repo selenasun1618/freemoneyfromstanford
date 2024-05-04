@@ -1,3 +1,5 @@
+import {useEffect} from "react";
+
 export type ResultItemProps = {
     title: string,
     description: string,
@@ -7,7 +9,6 @@ export type ResultItemProps = {
     deadlineMachine: string,
     remainingTimeMachine: string,
     remainingTime: string
-    currentCycle: string,
     nextCycle: string,
 }
 
@@ -30,7 +31,7 @@ export function ResultItem(item: Readonly<ResultItemProps>): React.ReactElement 
                 </span>
                 <br />
                 <span className="text-slate-300">
-                    <span className="underline">{ item.currentCycle }</span> cycle;
+                    {/*<span className="underline">{ item.currentCycle }</span> cycle;*/}
                     next cycle { item.nextCycle }
                 </span>
             </div>

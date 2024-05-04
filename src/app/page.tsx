@@ -35,7 +35,7 @@ export default function Home() {
                       </div>
                       <span className={"text-center mt-1 my-2 text-black-100"}>
                       Or go directly to our&nbsp;{/*<a href="/search" className={`underline text-white`}>Advanced Search</a>&nbsp; */}
-                          {/*page, or our&nbsp;*/}<a href="/list" className={`underline text-white`}>list of grants</a>
+                          {/*page, or our&nbsp;*/}<a href="/list" className={`underline text-white cursor-pointer`}>list of grants</a>
                       </span>
                   </form>
               </div>
