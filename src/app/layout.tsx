@@ -19,15 +19,15 @@ export default function RootLayout({
   return (
       <html lang="en">
       <body className="w-full min-h-screen flex flex-col">
-          <header className="w-full">
-              <h1 className="text-3xl">
-                  grants@stanford
-              </h1>
-          </header>
+          {/*<header className="w-full bg-digital-red-dark text-white">*/}
+          {/*    <h1 className="text-1xl ml-3 mt-2">*/}
+          {/*        grants@stanford*/}
+          {/*    </h1>*/}
+          {/*</header>*/}
 
           {children}
 
-          <footer>
+          <footer className={"text-center"}>
               Copyright &copy; 2024 <MaximilienCura /> and <SelenaSun />.
           </footer>
       </body>

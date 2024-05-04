@@ -6,6 +6,7 @@ from openai import OpenAI
 # ["Undergraduate", "MastersStudent", "Coterm", "PhD", "Postdoc", "Faculty", "VSO", "Other"]
 
 def search(data, query_embedding):
+    
     cosine_similarities = []
 
     for i, grant in enumerate(data['grants']):
@@ -29,13 +30,14 @@ def search(data, query_embedding):
     return results
 
 def main():
-    client = OpenAI()
+    
     data_path = 'database.json'
     query = "AI healthcare existential research"
     
     with open(data_path, 'r') as file:
         data = json.load(file)
 
+    client = OpenAI()
     query = query.replace("\n", " ")
     model="text-embedding-3-small"
     query_embedding = client.embeddings.create(input = [query], model = model).data[0].embedding

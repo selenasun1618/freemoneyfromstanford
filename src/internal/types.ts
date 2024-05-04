@@ -41,8 +41,8 @@ export type CycleInfo = {
 export type SearchResult = {
     title: string,
     description: string,
-    amount_min: number,
-    amount_max: number | string,
+    amountMin: number,
+    amountMax: number,
     url: string,
     deadline: Date,
     remainingTime: Date,
