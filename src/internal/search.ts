@@ -1,22 +1,77 @@
 'use server';
+import * as fs from 'fs';
+import * as util from 'util';
 
 import {ParsedFormData, SearchResult, SearchState} from "@/internal/types";
 import {FieldNames} from "@/constants/search";
 import {embeddingsCache} from "@/internal/cache";
 import {formDataCompositeSchema} from "@/internal/form_validate";
+import { OpenAI } from 'openai';
 
-export type EmbeddingType = unknown
+export type EmbeddingType = number[]
+const client = new OpenAI();
+let database: any = null;
 
 export async function generateEmbedding(searchString: string): Promise<EmbeddingType> {
-    // TODO(@selenasun1618)
+    try {
+        
+        const query = searchString.replace(/\n/g, " ");
+        const model = "text-embedding-3-small";
 
-    return /* placeholder, please delete */undefined as unknown as EmbeddingType/* end placeholder */
+        const response = await client.embeddings.create({
+            model: model,
+            input: query
+        });
+
+        if (response.data && response.data.length > 0) {
+            return response.data[0].embedding;
+        } else {
+            throw new Error("No embedding data received from the API");
+        }
+    } catch (error) {
+        console.error("Failed to generate embedding:", error);
+        throw error;
+    }
+}
+
+// Calculate cosine similarity between two vectors
+function cosineSimilarity(vecA: EmbeddingType, vecB: EmbeddingType): number {
+    const dotProduct = vecA.reduce((acc, current, idx) => acc + current * vecB[idx], 0);
+    const normA = Math.sqrt(vecA.reduce((acc, val) => acc + val * val, 0));
+    const normB = Math.sqrt(vecB.reduce((acc, val) => acc + val * val, 0));
+    return dotProduct / (normA * normB);
+}
+
+// Read JSON data from file
+async function readDataFromFile(filePath: string): Promise<any> {
+    const readFile = util.promisify(fs.readFile);
+    const data = await readFile(filePath, { encoding: 'utf8' });
+    return JSON.parse(data);
 }
 
 export async function search(searchEmbedding: EmbeddingType, parsedFormData: ParsedFormData): Promise<SearchResult[]> {
-    // TODO(@selenasun1618)
+    
+    if (database === null) {
+        const dataPath = 'database.json';
+        database = await readDataFromFile(dataPath);
+    }
+    
+    let cosineSimilarities: Array<[number, number]> = database.grants.map((grant: any, index: number) => {
+        const embedding = grant.embedding as EmbeddingType;
+        return [index, cosineSimilarity(embedding, searchEmbedding)];
+    });
 
-    return /* placeholder, please delete */undefined as unknown as SearchResult[]/* end placeholder */
+    cosineSimilarities.sort((a, b) => b[1] - a[1]);
+
+    // Remove results where cosine similarities < 0
+    const topResults = cosineSimilarities.filter(item => item[1] >= 0);
+
+    const results: SearchResult[] = topResults.map(([index, _]) => {
+        const { embedding, ...rest } = database.grants[index];
+        return rest as SearchResult;
+    });
+
+    return results;
 }
 
 // Actual search action. Called by the <form> in SearchPanel.
