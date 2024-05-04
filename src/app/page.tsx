@@ -10,10 +10,10 @@ export default function Home() {
                   </h1>
                   <p className={"text-center text-lg font-medium mb-6 mt-9 px-1 block"}>
                       <span className={'inline-block'}>
-                          Stanford can help, but the information can be spread out and difficult to navigate.
+                          Stanford has money, but it's often tucked away. 
                       </span>
                       <span className={'inline-block'}>
-                          Ergo us!
+                        Ergo us!
                       </span>
                   </p>
 
@@ -24,7 +24,7 @@ export default function Home() {
                       {/*    /!*(Note that this is not necessarily exhaustive, and we cannot represent Stanford)*!/*/}
                       {/*</h5>*/}
                       <div className={"my-2 mx-3 flex flex-row grow"}>
-                          <input type="search" placeholder="Search your grant topic..." enterKeyHint="search"
+                          <input type="search" placeholder="I need funding for..." enterKeyHint="search"
                                  name="search"
                                  className={"rounded-l-3xl py-3 pl-6 pr-3 flex-grow bg-slate-100 text-black-1000"}
                           />
