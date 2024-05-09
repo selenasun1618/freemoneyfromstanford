@@ -9,10 +9,10 @@ import {
     SortBy,
     SortOrder
 } from "@/internal/types";
-import { SearchPanel } from "@/components/SearchPanel";
+import { SearchPanel } from "../SearchPanel";
 import { ResultItem, ResultItemProps } from "@/components/ResultItem";
-import { doSearch } from "@/internal/search";
-import {useEffect, useState} from "react";
+import { doSearch } from "../search";
+import { useEffect, useState } from "react";
 
 // TODO: sorting without going through the form mechanism (i.e. on-page sorting)
 // TODO: make the homepage search bar go here with the correct form action

@@ -1,4 +1,4 @@
-import {EmbeddingType} from "@/internal/search";
+import {EmbeddingType} from "../../old/search";
 import {Limits} from "@/constants/search";
 
 class AsyncCache<K,V> implements AsyncCacheInternal<K,V> {

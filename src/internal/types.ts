@@ -31,37 +31,74 @@ export namespace SortOrder {
     export const defaultValue: Type = Enum.Descending
 }
 
-// item { title description amount_min amount_max url deadline remaining_time_display() current_cycle next_cycle_range }
-export type SearchResult = {
+export type Grant = {
+    id: string,
+
     title: string,
     description: string,
-    eligibility: string[]
+
+    eligibleAcademicPositions: AcademicPosition.Type[],
+    eligibleVSORepresentation: RepresentingVSO.Type[],
+    otherEligibilityConditions: string[],
+
     amountMin: number,
     amountMax: number,
+
     url: string,
     deadline: Date,
-    nextCycleStartDate: Date
+    nextCycleStartDate: Date,
 }
 
-export type SearchState = {
-    searchString: string,
-    position: AcademicPosition.Type,
-    representingVSO: RepresentingVSO.Type,
+export type Embedding = {
+    vector: number[],
+}
 
-    minAmount: number,
-
-    searchResults: SearchResult[],
-
+export type GrantSortConfig = {
     sortBy: SortBy.Type,
     sortOrder: SortOrder.Type,
 }
 
-export interface ParsedFormData {
-    readonly searchString: string
-    readonly position: AcademicPosition.Type
-    readonly representingVSO: RepresentingVSO.Type
-    readonly minAmount: number
-    readonly sortBy: SortBy.Type
-    readonly sortOrder: SortOrder.Type
+export type FilterState = {
+    position: AcademicPosition.Type,
+    representingVSO: RepresentingVSO.Type,
+    minAmount: number | null,
+    sortBy: SortBy.Type,
+    sortOrder: SortOrder.Type,
 }
 
+export type SearchState = {
+    searchString: string,
+}
+
+// item { title description amount_min amount_max url deadline remaining_time_display() current_cycle next_cycle_range }
+// export type SearchResult = {
+//     title: string,
+//     description: string,
+//     eligibility: string[]
+//     amountMin: number,
+//     amountMax: number,
+//     url: string,
+//     deadline: Date,
+//     nextCycleStartDate: Date
+// }
+// export type SearchState = {
+//     searchString: string,
+//     position: AcademicPosition.Type,
+//     representingVSO: RepresentingVSO.Type,
+//
+//     minAmount: number,
+//
+//     searchResults: SearchResult[],
+//
+//     sortBy: SortBy.Type,
+//     sortOrder: SortOrder.Type,
+// }
+// export interface ParsedFormData {
+//     readonly searchString: string
+//     readonly position: AcademicPosition.Type
+//     readonly representingVSO: RepresentingVSO.Type
+//     readonly minAmount: number
+//     readonly sortBy: SortBy.Type
+//     readonly sortOrder: SortOrder.Type
+// }
+//
