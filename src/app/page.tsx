@@ -1,15 +1,44 @@
-'use client';
+'use client'
 
-import {useState} from "react";
-import {AcademicPosition, FilterState, RepresentingVSO, SearchState, SortBy, SortOrder} from "@/internal/types";
+import {useEffect, useState} from "react";
+import {
+    AcademicPosition,
+    FilterState,
+    GrantDatabase,
+    RepresentingVSO,
+    SearchState,
+    SortBy,
+    SortOrder
+} from "@/internal/types";
+import {readDatabase} from "@/internal/backend";
+import {filterGrants} from "@/internal/filter";
 
 export default function Home() {
     let [ filterState, setFilterState ] = useState<FilterState>({
-        minAmount: null, position: AcademicPosition.defaultValue, representingVSO: RepresentingVSO.defaultValue, sortBy: SortBy.defaultValue, sortOrder: SortOrder.defaultValue
+        minAmount: null,
+        position: AcademicPosition.defaultValue, representingVSO: RepresentingVSO.defaultValue,
+        sortBy: SortBy.defaultValue, sortOrder: SortOrder.defaultValue
     });
-    let [ searchState, setSearchState ] = useState<SearchState>( {
-        searchString: ""
+    let [ searchState, setSearchState ] = useState<SearchState>( {searchString: ""});
+    let [ userHasInteracted, setUserHasInteracted ] = useState(false);
+
+    let [ grantDatabase, setGrantDatabase ] = useState<GrantDatabase|null>(null);
+    useEffect(() => {
+        let getGrantDatabase = async () => {
+            setGrantDatabase(await readDatabase())
+        }
+        getGrantDatabase()
     });
+
+    let eligibleGrants;
+    if(grantDatabase !== null) {
+        // TODO: actually run the search here; for now, a kludge
+        let grants = Object.values(grantDatabase);
+
+        eligibleGrants = filterGrants(grants, filterState);
+        // IMPORTANT: we are NOT using the sorting mechanism, since our original aim was to sort by RELEVANCE to the input string
+        // plus, e.g. sort-by-amount doesn't work super well when amount isn't always specified
+    }
 
     return (
         <main className="mb-auto flex flex-row justify-center text-white">

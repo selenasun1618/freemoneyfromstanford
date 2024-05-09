@@ -41,12 +41,19 @@ export type Grant = {
     eligibleVSORepresentation: RepresentingVSO.Type[],
     otherEligibilityConditions: string[],
 
-    amountMin: number,
-    amountMax: number,
+    amountMin: number | null,
+    amountMax: number | null,
 
     url: string,
     deadline: Date,
     nextCycleStartDate: Date,
+}
+
+export type GrantDatabase = {
+    readonly [key: string]: Grant,
+}
+export type EmbeddingsDatabase = {
+    readonly [key: string]: Embedding,
 }
 
 export type Embedding = {
@@ -59,8 +66,10 @@ export type GrantSortConfig = {
 }
 
 export type FilterState = {
-    position: AcademicPosition.Type,
-    representingVSO: RepresentingVSO.Type,
+    /// Initialize to `null`.
+    position: AcademicPosition.Type | null,
+    /// Initialize to `null`.
+    representingVSO: RepresentingVSO.Type | null,
     minAmount: number | null,
     sortBy: SortBy.Type,
     sortOrder: SortOrder.Type,
@@ -69,36 +78,3 @@ export type FilterState = {
 export type SearchState = {
     searchString: string,
 }
-
-// item { title description amount_min amount_max url deadline remaining_time_display() current_cycle next_cycle_range }
-// export type SearchResult = {
-//     title: string,
-//     description: string,
-//     eligibility: string[]
-//     amountMin: number,
-//     amountMax: number,
-//     url: string,
-//     deadline: Date,
-//     nextCycleStartDate: Date
-// }
-// export type SearchState = {
-//     searchString: string,
-//     position: AcademicPosition.Type,
-//     representingVSO: RepresentingVSO.Type,
-//
-//     minAmount: number,
-//
-//     searchResults: SearchResult[],
-//
-//     sortBy: SortBy.Type,
-//     sortOrder: SortOrder.Type,
-// }
-// export interface ParsedFormData {
-//     readonly searchString: string
-//     readonly position: AcademicPosition.Type
-//     readonly representingVSO: RepresentingVSO.Type
-//     readonly minAmount: number
-//     readonly sortBy: SortBy.Type
-//     readonly sortOrder: SortOrder.Type
-// }
-//

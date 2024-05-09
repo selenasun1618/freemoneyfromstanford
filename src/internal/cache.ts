@@ -57,9 +57,8 @@ class EmbeddingsCache implements AsyncCacheInternal<string, EmbeddingType> {
     }
 }
 
-export const embeddingsCache: AsyncCache<string, EmbeddingType> = new AsyncCache(new EmbeddingsCache({
-    maxPersistentItems: Limits.MAX_PERSISTENT_EMBEDDING_CACHE,
-    maxTransientItems: Limits.MAX_TRANSIENT_EMBEDDING_CACHE,
-    mode: "lru"
-}))
-
+// export const embeddingsCache: AsyncCache<string, EmbeddingType> = new AsyncCache(new EmbeddingsCache({
+//     maxPersistentItems: Limits.MAX_PERSISTENT_EMBEDDING_CACHE,
+//     maxTransientItems: Limits.MAX_TRANSIENT_EMBEDDING_CACHE,
+//     mode: "lru"
+// }))
