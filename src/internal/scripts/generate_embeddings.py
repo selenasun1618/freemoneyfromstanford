@@ -15,7 +15,6 @@ def generate_embeddings():
     for key,value in data.items():  
         description = value['description'].replace("\n", " ")
         embedding = client.embeddings.create(input = [description], model = model).data[0].embedding
-        print(f'embedding: {len(embedding)}\n')
         embeddings[key] = embedding
     
     with open(embeddings_path, 'w') as file:
