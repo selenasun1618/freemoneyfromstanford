@@ -102,8 +102,8 @@
         "title": "The William W. and Janet F. Crandall Beagle II Award",
         "description": "The William W. and Janet F. Crandall Beagle II Award acknowledges exemplary undergraduate student research projects that embody discovery, exploration, possess a strong intellectual curiosity, a passionate interest in a particular subject, and a keen spirit of intellectual adventure.",
         "eligibility": ["Undergraduate"],
-        "amountMin": -1,
-        "amountMax": -1,
+        "amountMin": null,
+        "amountMax": null,
         "url": "https://undergradresearch.stanford.edu/fund-your-project/explore-student-grants/beagleII",
         "deadline": "",
         "nextCycleStartDate": ""

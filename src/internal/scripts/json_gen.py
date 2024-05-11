@@ -62,7 +62,7 @@ As a reminder, VPUE grant recipients who are planning on concurrently participat
     Using the entered information, populate this json element:
         "title": string,
         "description": string,
-        "eligibility": Subset of ["Undergraduate", "MastersStudent", "Coterm", "PhD", "Postdoc", "Faculty", "VSO", "Other"],
+        "eligibility": Subset of ["Undergraduate", "MastersStudent", "Coterm", "PhD", "Postdoc", "Faculty", "Undergraduate VSO", "Graduate VSO""Other"],
         "amountMin": Int,
         "amountMax": Int,
         "url": string,
