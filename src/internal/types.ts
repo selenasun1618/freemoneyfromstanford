@@ -46,11 +46,11 @@ export type Grant = {
 
     url: string,
     deadline: Date,
-    nextCycleStartDate: Date,
+    nextCycleStartDate: Date | null,
 }
 
 export type GrantDatabase = {
-    readonly [key: string]: Grant,
+    [key: string]: Grant,
 }
 export type EmbeddingsDatabase = {
     readonly [key: string]: Embedding,

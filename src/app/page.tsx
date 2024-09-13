@@ -19,8 +19,9 @@ export default function Home() {
         position: AcademicPosition.defaultValue, representingVSO: RepresentingVSO.defaultValue,
         sortBy: SortBy.defaultValue, sortOrder: SortOrder.defaultValue
     });
+    // `searchState` contains the current string that is being searched.
     let [ searchState, setSearchState ] = useState<SearchState>( {searchString: ""});
-    let [ userHasInteracted, setUserHasInteracted ] = useState(false);
+    // let [ userHasInteracted, setUserHasInteracted ] = useState(false);
 
     let [ grantDatabase, setGrantDatabase ] = useState<GrantDatabase|null>(null);
     useEffect(() => {

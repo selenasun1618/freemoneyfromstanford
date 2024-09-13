@@ -2,7 +2,7 @@
 
 import fs from 'node:fs';
 import path from "node:path";
-import {EmbeddingsDatabase, GrantDatabase} from "@/internal/types";
+import {AcademicPosition, EmbeddingsDatabase, GrantDatabase, RepresentingVSO} from "@/internal/types";
 import util from "util";
 
 async function readFileContents<T>(path: string) : Promise<T> {
@@ -32,12 +32,43 @@ export async function readDatabase() : Promise<GrantDatabase> {
     const DATABASE_PATH = rootRelativePath('/src/internal/database.json')
     if(CACHED_DATABASE === null) {
         let raw = await readFileContents<{[_: string]: RecordFmt}>(DATABASE_PATH)
+        CACHED_DATABASE = {}
         Object.keys(raw).forEach((key) => {
             let record : RecordFmt = raw[key];
             let amountMin = record.amount_min == -1 ? null : record.amount_min;
             let amountMax = record.amount_max == -1 ? null : record.amount_max;
-            let url = new URL(record.url);
-
+            let url = record.url;
+            let deadline = new Date(record.deadline);
+            let nextCycleStartDate : Date | null = null
+            if(record.next_cycle_start !== "") {
+                nextCycleStartDate = new Date(record.next_cycle_start)
+            }
+            let eligibleAcademicPositions = []
+            let eligibleVSORepresentation = []
+            for(const elig of record.eligibility){
+                if(AcademicPosition.values.includes(elig as any)) {
+                    eligibleAcademicPositions.push(elig)
+                }
+                if(RepresentingVSO.values.includes(elig as any)) {
+                    eligibleVSORepresentation.push(elig)
+                }
+            }
+            let grant = {
+                id: key,
+                title: record.title,
+                description: record.description,
+                eligibleAcademicPositions: eligibleAcademicPositions as AcademicPosition.Type[],
+                eligibleVSORepresentation: eligibleVSORepresentation as RepresentingVSO.Type[],
+                otherEligibilityConditions: [],
+                amountMin,
+                amountMax,
+                url,
+                deadline,
+                nextCycleStartDate
+            }
+            if(CACHED_DATABASE !== null) {
+                CACHED_DATABASE[key] = grant
+            }
         })
     }
     return CACHED_DATABASE
