@@ -3,7 +3,7 @@
 import {useEffect, useState} from "react";
 import {
     AcademicPosition,
-    FilterState,
+    FilterState, Grant,
     GrantDatabase,
     RepresentingVSO,
     SearchState,
@@ -12,6 +12,7 @@ import {
 } from "@/internal/types";
 import {readDatabase} from "@/internal/backend";
 import {filterGrants} from "@/internal/filter";
+import {ResultView} from "@/components/ResultView";
 
 export default function Home() {
     let [ filterState, setFilterState ] = useState<FilterState>({
@@ -20,18 +21,20 @@ export default function Home() {
         sortBy: SortBy.defaultValue, sortOrder: SortOrder.defaultValue
     });
     // `searchState` contains the current string that is being searched.
-    let [ searchState, setSearchState ] = useState<SearchState>( {searchString: ""});
+    let [ searchState, setSearchState ] = useState<SearchState>({searchString: ""});
     // let [ userHasInteracted, setUserHasInteracted ] = useState(false);
 
+    // Load the grant database
     let [ grantDatabase, setGrantDatabase ] = useState<GrantDatabase|null>(null);
     useEffect(() => {
+        console.log("Loading grant database...")
         let getGrantDatabase = async () => {
             setGrantDatabase(await readDatabase())
         }
         getGrantDatabase()
     });
 
-    let eligibleGrants;
+    let eligibleGrants = [] as Grant[];
     if(grantDatabase !== null) {
         // TODO: actually run the search here; for now, a kludge
         let grants = Object.values(grantDatabase);
@@ -39,7 +42,10 @@ export default function Home() {
         eligibleGrants = filterGrants(grants, filterState);
         // IMPORTANT: we are NOT using the sorting mechanism, since our original aim was to sort by RELEVANCE to the input string
         // plus, e.g. sort-by-amount doesn't work super well when amount isn't always specified
+        // TODO(max): natural conclusion: we should instead have a SortBy.Relevance which is the default option
     }
+
+    console.log(eligibleGrants);
 
     return (
         <main className="mb-auto flex flex-row justify-center text-white">
@@ -75,6 +81,10 @@ export default function Home() {
                         </span>
                     </div>
                 </div>
+            </div>
+            {/* underneath the upper search box */}
+            <div className={''}>
+                <ResultView grants={eligibleGrants} />
             </div>
         </main>
     )

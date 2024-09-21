@@ -1,11 +1,11 @@
-import {FilterState, Grant, GrantDatabase, SortBy, SortOrder} from "@/internal/types";
-import {filter} from "minimatch";
+import { FilterState, Grant, SortBy, SortOrder } from "@/internal/types";
 
 export function filterGrants(
     grants: Grant[],
     filterState: FilterState
 ) : Grant[] {
     let pred = (grant: Grant) => {
+        console.log("Filtering grant");
         if(filterState.minAmount !== null) {
             let grantMax = grant.amountMax;
             if(grantMax !== null) {
