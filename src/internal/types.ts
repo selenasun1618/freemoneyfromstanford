@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export namespace AcademicPosition {
-    export const values = ['Undergraduate', 'MastersStudent', 'Coterm', 'PhD', 'Postdoc', 'Faculty', 'Other'] as const
+    export const values = ['Undergraduate', 'Masters Student', 'Coterm', 'PhD', 'Postdoc', 'Faculty', 'Other'] as const
     export const schema = z.enum(values)
     export type Type = (typeof values)[number]
     export const defaultValue: Type = 'Other'
@@ -62,14 +62,12 @@ export type GrantSortConfig = {
     sortOrder: SortOrder.Type,
 }
 
-export type FilterState = {
-    /// Initialize to `null`.
-    position: AcademicPosition.Type | null,
-    /// Initialize to `null`.
-    representingVSO: RepresentingVSO.Type | null,
-    minAmount: number | null,
-    sortBy: SortBy.Type,
-    sortOrder: SortOrder.Type,
+export interface FilterState {
+    minAmount: number | null;
+    positions: AcademicPosition.Type[];
+    representingVSOs: RepresentingVSO.Type[];
+    sortBy: SortBy.Type;
+    sortOrder: SortOrder.Type;
 }
 
 export type SearchState = {

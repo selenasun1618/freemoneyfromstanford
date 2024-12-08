@@ -62,7 +62,7 @@ As a reminder, VPUE grant recipients who are planning on concurrently participat
     Using the entered information, populate this json element:
         "title": string,
         "description": string,
-        "eligibility": Subset of ["Undergraduate", "MastersStudent", "Coterm", "PhD", "Postdoc", "Faculty", "Undergraduate VSO", "Graduate VSO""Other"],
+        "eligibility": Subset of ["Undergraduate", "Masters Student", "Coterm", "PhD", "Postdoc", "Faculty", "Undergraduate VSO", "Graduate VSO""Other"],
         "amountMin": Int,
         "amountMax": Int,
         "url": string,
@@ -92,7 +92,7 @@ As a reminder, VPUE grant recipients who are planning on concurrently participat
     JSON:
     "title": "SERI 2024 Research Fellowship",
     "description": "In summer 2024, the Stanford Existential Risks Initiative will fund 10-week full-time research projects dedicated to mitigating existential risks, with an emphasis on building a community of existential risk researchers via speaker events, discussion groups, social events, etc. Students will work with a mentor (a faculty member, postdoctoral scholar, or industry expert), who will provide weekly advising along with guidance on projects and their design. We define a existential risk as one that could cause the collapse of human civilization or even the extinction of the human species. Prominent examples of human-driven existential risks include 1) nuclear war, 2) an infectious disease pandemic engineered by malevolent actors using synthetic biology, 3) hostile or uncontrolled deployments of artificial intelligence, and 4) climate change and other environmental degradation creating biological and physical conditions that thriving human civilizations would not survive. Existential risks projects could range from purely technical research to philosophical research.",
-    "eligibility": ["Undergraduate", "MastersStudent", "Coterm", "PhD"],
+    "eligibility": ["Undergraduate", "Masters Student", "Coterm", "PhD"],
     "amountMin": 7500,
     "amountMax": 7500,
     "url": "https://docs.google.com/forms/d/e/1FAIpQLScLRbrn89CLK5I0YY8vajVXgkYfNBhJB_hNi1QW0bokt2bQtg/viewform",

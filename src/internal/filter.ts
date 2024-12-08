@@ -14,21 +14,27 @@ export function filterGrants(
                 }
             }
         }
-        if(filterState.position !== null) {
-            // Check if any eligibility string contains the position
-            if(!grant.eligibility.some(e => e.includes(filterState.position!))) {
+        if(filterState.positions && filterState.positions.length > 0) {
+            // Check if any eligibility string contains any of the selected positions
+            if(!filterState.positions.some(position => 
+                grant.eligibility.some(e => e.includes(position))
+            )) {
                 return false;
             }
         }
-        if(filterState.representingVSO !== null && filterState.representingVSO !== 'None') {
-            // Check if any eligibility string contains the VSO representation
-            if(!grant.eligibility.some(e => e.includes(filterState.representingVSO!))) {
+        if(filterState.representingVSOs && filterState.representingVSOs.length > 0) {
+            // Check if any eligibility string contains any of the selected VSOs
+            // Skip 'None' checks
+            const relevantVSOs = filterState.representingVSOs.filter(vso => vso !== 'None');
+            if(relevantVSOs.length > 0 && !relevantVSOs.some(vso => 
+                grant.eligibility.some(e => e.includes(vso))
+            )) {
                 return false;
             }
         }
         return true;
     }
-    return grants.filter(pred)
+    return grants.filter(pred);
 }
 
 export function sortGrants(

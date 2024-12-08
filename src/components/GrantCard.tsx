@@ -18,12 +18,17 @@ export function GrantCard({ grant }: GrantCardProps): React.ReactElement {
     };
 
     const getDaysLeft = (deadline: string | Date) => {
-        if (!deadline) return null;
+        console.log('Deadline received:', deadline); // Log the raw deadline
+        if (!deadline) {
+            console.log('No deadline provided');
+            return null;
+        }
         const today = new Date();
         const deadlineDate = deadline instanceof Date ? deadline : new Date(deadline);
         const diffTime = deadlineDate.getTime() - today.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays > 0 ? diffDays : null;
+        const result = diffDays > 0 ? diffDays : null;
+        return result;
     };
 
     const daysLeft = getDaysLeft(grant.deadline);
@@ -38,28 +43,33 @@ export function GrantCard({ grant }: GrantCardProps): React.ReactElement {
     };
 
     return (
-        <div className="rounded-3xl bg-cardinal-red-dark p-6 text-white shadow-lg hover:shadow-xl transition-shadow">
+        <div className="rounded-3xl bg-white border-2 border-cardinal-red-dark p-6 text-black-900 shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex justify-between items-start">
-                <h2 className="text-2xl font-semibold">{grant.title}</h2>
+                <h2 className="text-2xl font-semibold text-black-900">{grant.title}</h2>
                 <div className="text-right">
-                    <div>Due: {formatDeadline(grant.deadline)}</div>
+                    <div className="font-bold text-cardinal-red-dark bg-black-25 px-3 py-1 rounded-lg inline-block">
+                        Due: {formatDeadline(grant.deadline)}
+                    </div>
                     {daysLeft && (
-                        <div className="font-bold">{daysLeft} Days Left</div>
+                        <div className="font-bold text-cardinal-red-dark mt-1">{daysLeft} Days Left</div>
                     )}
                 </div>
             </div>
             
             <div className="mt-2">
-                <span className="font-medium">Eligibility: </span>
+                <span className="font-medium text-black-900">Eligibility: </span>
                 {grant.eligibility.join(', ')}
             </div>
             
             <div className="mt-2">
-                <span className="font-medium">Amount: </span>
+                <span className="font-medium text-black-900">Amount: </span>
                 {formatAmount()}
             </div>
             
-            <p className="mt-4 text-gray-200 line-clamp-3">Description: {grant.description}</p>
+            <div className="mt-2">
+                <span className="font-medium text-black-1000 text-sm">Description: </span>
+                <span className="text-sm">{grant.description}</span>
+            </div>
             
             <div className="flex justify-between items-center mt-4">
                 {grant.url ? (
@@ -67,23 +77,24 @@ export function GrantCard({ grant }: GrantCardProps): React.ReactElement {
                         href={grant.url} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="inline-flex items-center text-white hover:text-gray-200"
+                        className="inline-flex items-center text-cardinal-red-dark hover:text-cardinal-red hover:font-bold transition-all duration-150"
                     >
                         Apply →
                     </a>
                 ) : (
-                    <span className="text-gray-300">Application not yet open</span>
+                    <span className="text-black-400">Application not yet open</span>
                 )}
                 
-                <button 
-                    className="text-white hover:text-gray-200"
-                    onClick={() => {
-                        // TODO: Implement calendar functionality
-                        console.log('Add to calendar clicked');
-                    }}
-                >
-                    Add to calendar ↗
-                </button>
+                {grant.deadline && (
+                    <button 
+                        className="text-cardinal-red-dark hover:text-cardinal-red hover:font-bold transition-all duration-150"
+                        onClick={() => {
+                            console.log('Add to calendar clicked');
+                        }}
+                    >
+                        Add to calendar ↗
+                    </button>
+                )}
             </div>
         </div>
     );

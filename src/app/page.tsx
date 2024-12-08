@@ -27,8 +27,8 @@ const SearchInput = ({ value, onChange }: { value: string, onChange: (value: str
 export default function Home() {
     let [filterState, setFilterState] = useState<FilterState>({
         minAmount: null,
-        position: AcademicPosition.defaultValue,
-        representingVSO: RepresentingVSO.defaultValue,
+        positions: [],
+        representingVSOs: [],
         sortBy: SortBy.defaultValue,
         sortOrder: SortOrder.defaultValue
     });
@@ -75,12 +75,12 @@ export default function Home() {
                         &nbsp;
                     </p>
 
-                    <div className="flex flex-col grow sm:rounded-2xl px-5 pb-5">
+                    <div className="flex flex-col grow sm:rounded-2xl">
                         <div className="my-2 flex justify-center">
                             <div className="w-full max-w-4xl">
                                 <SearchInput value={searchQuery} onChange={setSearchQuery} />
                                 <p className="text-sm italic text-white mt-2 text-center">
-                                    Try searching by topic, amount, or eligibility
+                                    Try searching by topic, amount, or eligibility [TODO: examples]
                                 </p>
                             </div>
                         </div>
@@ -89,7 +89,7 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 pt-8">
                 <div className="w-64">
                     <Filter filterState={filterState} onFilterChange={setFilterState} />
                 </div>

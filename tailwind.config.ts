@@ -30,6 +30,7 @@ const config: Config = {
         200: '#C0C0BF',
         100: '#D5D5D4',
         50: '#EAEAEA',
+        25: '#F4F4F4',
       },
       'white': '#ffffff',
       'cardinal-red': '#8c1515',

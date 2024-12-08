@@ -24,10 +24,10 @@ export function ResultView({ grants, searchQuery = "" }: ResultViewProps): React
     }, [grants, searchQuery]);
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-8 pr-12">
             {sortedAndFilteredGrants.length === 0 ? (
                 <div className="text-center text-gray-500">
-                    No grants found matching your criteria
+                    No grants found matching your criteria :(
                 </div>
             ) : (
                 <ul className="space-y-4">
