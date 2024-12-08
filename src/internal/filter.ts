@@ -10,21 +10,23 @@ export function filterGrants(
             let grantMax = grant.amountMax;
             if(grantMax !== null) {
                 if(grantMax < filterState.minAmount) {
-                    return false
+                    return false;
                 }
             }
         }
         if(filterState.position !== null) {
-            if(!grant.eligibleAcademicPositions.includes(filterState.position)) {
-                return false
+            // Check if any eligibility string contains the position
+            if(!grant.eligibility.some(e => e.includes(filterState.position!))) {
+                return false;
             }
         }
-        if(filterState.representingVSO !== null) {
-            if(!grant.eligibleVSORepresentation.includes(filterState.representingVSO)) {
-                return false
+        if(filterState.representingVSO !== null && filterState.representingVSO !== 'None') {
+            // Check if any eligibility string contains the VSO representation
+            if(!grant.eligibility.some(e => e.includes(filterState.representingVSO!))) {
+                return false;
             }
         }
-        return true
+        return true;
     }
     return grants.filter(pred)
 }

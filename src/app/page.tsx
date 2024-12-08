@@ -6,82 +6,94 @@ import {
     FilterState, Grant,
     GrantDatabase,
     RepresentingVSO,
-    SearchState,
     SortBy,
     SortOrder
 } from "@/internal/types";
-import {readDatabase} from "@/internal/backend";
 import {filterGrants} from "@/internal/filter";
 import {ResultView} from "@/components/ResultView";
+import {readDatabase} from "@/internal/backend";
+import {Filter} from "@/components/Filter";
+
+const SearchInput = ({ value, onChange }: { value: string, onChange: (value: string) => void }) => (
+    <input
+        type="search"
+        name="search"
+        placeholder="Enter your project idea..."
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full max-w-2xl px-4 py-2 rounded-full border-2 border-white bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
+    />
+);
 
 export default function Home() {
-    let [ filterState, setFilterState ] = useState<FilterState>({
+    let [filterState, setFilterState] = useState<FilterState>({
         minAmount: null,
-        position: AcademicPosition.defaultValue, representingVSO: RepresentingVSO.defaultValue,
-        sortBy: SortBy.defaultValue, sortOrder: SortOrder.defaultValue
+        position: AcademicPosition.defaultValue,
+        representingVSO: RepresentingVSO.defaultValue,
+        sortBy: SortBy.defaultValue,
+        sortOrder: SortOrder.defaultValue
     });
-    // `searchState` contains the current string that is being searched.
-    let [ searchState, setSearchState ] = useState<SearchState>({searchString: ""});
-    // let [ userHasInteracted, setUserHasInteracted ] = useState(false);
+
+    let [searchQuery, setSearchQuery] = useState("");
+    let [grantDatabase, setGrantDatabase] = useState<GrantDatabase|null>(null);
 
     // Load the grant database
-    let [ grantDatabase, setGrantDatabase ] = useState<GrantDatabase|null>(null);
     useEffect(() => {
-        console.log("Loading grant database...")
-        let getGrantDatabase = async () => {
-            setGrantDatabase(await readDatabase())
-        }
-        getGrantDatabase()
-    });
+        const fetchGrants = async () => {
+            try {
+                const data = await readDatabase();
+                console.log('Fetched grants:', data);
+                setGrantDatabase(data);
+            } catch (error) {
+                console.error('Error loading database:', error);
+            }
+        };
+        fetchGrants();
+    }, []);
 
     let eligibleGrants = [] as Grant[];
     if(grantDatabase !== null) {
-        // TODO: actually run the search here; for now, a kludge
+        console.log('Processing grants from database:', grantDatabase);
         let grants = Object.values(grantDatabase);
-
+        console.log('Grants array after Object.values:', grants);
         eligibleGrants = filterGrants(grants, filterState);
-        // IMPORTANT: we are NOT using the sorting mechanism, since our original aim was to sort by RELEVANCE to the input string
-        // plus, e.g. sort-by-amount doesn't work super well when amount isn't always specified
-        // TODO(max): natural conclusion: we should instead have a SortBy.Relevance which is the default option
+        console.log('Eligible grants after filtering:', eligibleGrants);
     }
 
-    console.log(eligibleGrants);
-
     return (
-        <main className="mb-auto flex flex-row justify-center text-white">
+        <main className="min-h-screen bg-white">
             <div className="bg-digital-red w-full pt-10">
                 <div className="container mx-auto md:p-4 md:pb-10">
-                    <h1 className={"text-center text-4xl font-bold my-6 px-1 text-white"}>
-                    <span className={'inline-block'}>Need money for a </span>{' '}
-                        <span className={"underline"}>project</span>,{' '}
-                        <span className={'inline-block'}>but unsure how to fund it?</span>
+                    <h1 className="text-center text-4xl font-bold my-6 px-1 text-white">
+                        <span className="inline-block">Need money for a </span>{' '}
+                        <span className="underline">project</span>,{' '}
+                        <span className="inline-block">but unsure how to fund it?</span>
                     </h1>
-                    <p className={"text-center text-lg font-medium mb-6 mt-9 px-1 block"}>
-                        <span className={'inline-block'}>
+                    <p className="text-center text-lg font-medium mb-6 mt-9 px-1 block text-white">
+                        <span className="inline-block">
                             Stanford can help, but the information can be spread out and difficult to navigate.
                         </span>
                         &nbsp;
-                        <span className={'inline-block'}>
-                            Ergo us!
-                        </span>
                     </p>
 
-                    <div className={"flex flex-col grow sm:rounded-2xl bg-digital-red px-5 pb-5"}>
-                        <div className={"my-2 mx-3 flex flex-row grow"}>
-                            <input type="search" placeholder="Enter your project idea..." enterKeyHint="search"
-                                   name="search"
-                                   value={searchState.searchString}
-                                   onChange={(e) => setSearchState({ searchString: e.target.value })}
-                                   className={"rounded-l-3xl py-3 pl-6 pr-3 flex-grow bg-slate-100 text-black-1000"}
-                            />
+                    <div className="flex flex-col grow sm:rounded-2xl bg-digital-red px-5 pb-5">
+                        <div className="my-2 flex justify-center">
+                            <div className="w-full max-w-3xl">
+                                <SearchInput value={searchQuery} onChange={setSearchQuery} />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {/* underneath the upper search box */}
-            <div className={''}>
-                <ResultView grants={eligibleGrants} />
+
+            <div className="flex gap-4">
+                <div className="w-64">
+                    <Filter filterState={filterState} onFilterChange={setFilterState} />
+                </div>
+                <div className="flex-1">
+                    <ResultView grants={eligibleGrants} searchQuery={searchQuery} />
+                </div>
             </div>
         </main>
-    )
+    );
 }

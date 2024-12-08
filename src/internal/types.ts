@@ -37,14 +37,11 @@ export type Grant = {
     title: string,
     description: string,
 
-    eligibleAcademicPositions: AcademicPosition.Type[],
-    eligibleVSORepresentation: RepresentingVSO.Type[],
-    otherEligibilityConditions: string[],
-
     amountMin: number | null,
     amountMax: number | null,
 
     url: string,
+    eligibility: string[]
     deadline: Date,
     nextCycleStartDate: Date | null,
 }
