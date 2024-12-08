@@ -6,7 +6,7 @@ export function GrantAsListItem(grant: Readonly<Grant>) : React.ReactElement {
             <div className={"w-auto"}>
                 <h3 className={"text-2xl"}>{ grant.title }</h3>
                 <p><b className={"mr-3"}>Description</b>{ grant.description }</p>
-                <p><b className={"mr-3"}>Amount</b>{ item.minAmount }-{ item.amount}</p>
+                {/* <p><b className={"mr-3"}>Amount</b>{ item.minAmount }-{ item.amount}</p> */}
             </div>
         </li>
     )
