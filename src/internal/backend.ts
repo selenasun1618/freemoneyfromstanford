@@ -66,9 +66,9 @@ export async function readDatabase() : Promise<GrantDatabase> {
                 deadline,
                 nextCycleStartDate
             }
-            if(CACHED_DATABASE !== null) {
-                CACHED_DATABASE[key] = grant
-            }
+            // if(CACHED_DATABASE !== null) {
+            //     CACHED_DATABASE[key] = grant
+            // }
         })
     }
     return CACHED_DATABASE
