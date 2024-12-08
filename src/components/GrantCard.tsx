@@ -38,7 +38,7 @@ export function GrantCard({ grant }: GrantCardProps): React.ReactElement {
     };
 
     return (
-        <div className="rounded-3xl bg-forest-green p-6 text-white shadow-lg hover:shadow-xl transition-shadow">
+        <div className="rounded-3xl bg-cardinal-red-dark p-6 text-white shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex justify-between items-start">
                 <h2 className="text-2xl font-semibold">{grant.title}</h2>
                 <div className="text-right">
@@ -59,7 +59,7 @@ export function GrantCard({ grant }: GrantCardProps): React.ReactElement {
                 {formatAmount()}
             </div>
             
-            <p className="mt-4 text-gray-200 line-clamp-3">{grant.description}</p>
+            <p className="mt-4 text-gray-200 line-clamp-3">Description: {grant.description}</p>
             
             <div className="flex justify-between items-center mt-4">
                 {grant.url ? (

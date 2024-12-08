@@ -16,12 +16,11 @@ import {Filter} from "@/components/Filter";
 
 const SearchInput = ({ value, onChange }: { value: string, onChange: (value: string) => void }) => (
     <input
+        className="w-full rounded-3xl py-3 pl-6 pr-3 bg-white text-black-1000"
         type="search"
-        name="search"
-        placeholder="Enter your project idea..."
+        placeholder="What do you need funding for?"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full max-w-2xl px-4 py-2 rounded-full border-2 border-white bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
     />
 );
 
@@ -62,27 +61,31 @@ export default function Home() {
 
     return (
         <main className="min-h-screen bg-white">
-            <div className="bg-digital-red w-full pt-10">
+            <div className="bg-cardinal-red-dark w-full pt-10">
                 <div className="container mx-auto md:p-4 md:pb-10">
                     <h1 className="text-center text-4xl font-bold my-6 px-1 text-white">
                         <span className="inline-block">Need money for a </span>{' '}
                         <span className="underline">project</span>,{' '}
                         <span className="inline-block">but unsure how to fund it?</span>
                     </h1>
-                    <p className="text-center text-lg font-medium mb-6 mt-9 px-1 block text-white">
+                    <p className="text-center text-lg mb-6 mt-9 px-1 text-white">
                         <span className="inline-block">
-                            Stanford can help, but the information can be spread out and difficult to navigate.
+                            Stanford has money, but it's often tucked away. Ergo, this search engine!
                         </span>
                         &nbsp;
                     </p>
 
-                    <div className="flex flex-col grow sm:rounded-2xl bg-digital-red px-5 pb-5">
+                    <div className="flex flex-col grow sm:rounded-2xl px-5 pb-5">
                         <div className="my-2 flex justify-center">
-                            <div className="w-full max-w-3xl">
+                            <div className="w-full max-w-4xl">
                                 <SearchInput value={searchQuery} onChange={setSearchQuery} />
+                                <p className="text-sm italic text-white mt-2 text-center">
+                                    Try searching by topic, amount, or eligibility
+                                </p>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
