@@ -27,9 +27,9 @@ export default function RootLayout({
 
           {children}
 
-          <footer className={"text-center"}>
+          {/* <footer className={"text-center"}>
               Copyright &copy; 2024 <MaximilienCura /> and <SelenaSun />.
-          </footer>
+          </footer> */}
       </body>
       </html>
   );

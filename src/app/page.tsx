@@ -61,19 +61,18 @@ export default function Home() {
                             Stanford can help, but the information can be spread out and difficult to navigate.
                         </span>
                         &nbsp;
-                        <span className={'inline-block'}>
-                            Ergo us!
-                        </span>
                     </p>
 
                     <div className={"flex flex-col grow sm:rounded-2xl bg-digital-red px-5 pb-5"}>
-                        <div className={"my-2 mx-3 flex flex-row grow"}>
-                            <input type="search" placeholder="Enter your project idea..." enterKeyHint="search"
-                                   name="search"
-                                   value={searchState.searchString}
-                                   onChange={(e) => setSearchState({ searchString: e.target.value })}
-                                   className={"rounded-l-3xl py-3 pl-6 pr-3 flex-grow bg-slate-100 text-black-1000"}
-                            />
+                        <div className={"my-2 flex justify-center"}>
+                            <div className={"w-full max-w-3xl"}>
+                                <input type="search" placeholder="Enter your project idea..." enterKeyHint="search"
+                                    name="search"
+                                    value={searchState.searchString}
+                                    onChange={(e) => setSearchState({ searchString: e.target.value })}
+                                    className={"rounded-3xl py-3 pl-6 pr-3 w-full bg-slate-100 text-black-1000"}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
