@@ -29,9 +29,10 @@ export async function readDatabase() : Promise<GrantDatabase> {
         deadline: string,
         next_cycle_start: string,
     }
-    const DATABASE_PATH = rootRelativePath('/src/internal/database.json')
+    const DATABASE_PATH = rootRelativePath('database.json')
     if(CACHED_DATABASE === null) {
         let raw = await readFileContents<{[_: string]: RecordFmt}>(DATABASE_PATH)
+        console.log('Raw database loaded:', raw);
         CACHED_DATABASE = {}
         Object.keys(raw).forEach((key) => {
             let record : RecordFmt = raw[key];
@@ -57,6 +58,7 @@ export async function readDatabase() : Promise<GrantDatabase> {
                 id: key,
                 title: record.title,
                 description: record.description,
+                eligibility: record.eligibility,
                 eligibleAcademicPositions: eligibleAcademicPositions as AcademicPosition.Type[],
                 eligibleVSORepresentation: eligibleVSORepresentation as RepresentingVSO.Type[],
                 otherEligibilityConditions: [],
@@ -66,9 +68,9 @@ export async function readDatabase() : Promise<GrantDatabase> {
                 deadline,
                 nextCycleStartDate
             }
-            // if(CACHED_DATABASE !== null) {
-            //     CACHED_DATABASE[key] = grant
-            // }
+            if(CACHED_DATABASE !== null) {
+                CACHED_DATABASE[key] = grant
+            }
         })
     }
     return CACHED_DATABASE
