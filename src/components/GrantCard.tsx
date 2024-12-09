@@ -18,7 +18,7 @@ export function GrantCard({ grant }: GrantCardProps): React.ReactElement {
     };
 
     const getDaysLeft = (deadline: string | Date) => {
-        console.log('Deadline received:', deadline); // Log the raw deadline
+        console.log('Deadline received:', deadline);
         if (!deadline) {
             console.log('No deadline provided');
             return null;
@@ -29,6 +29,30 @@ export function GrantCard({ grant }: GrantCardProps): React.ReactElement {
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         const result = diffDays > 0 ? diffDays : null;
         return result;
+    };
+
+    const createGoogleCalendarUrl = (grant: Grant) => {
+        const deadline = new Date(grant.deadline);
+        const endDate = new Date(deadline);
+        endDate.setDate(deadline.getDate() + 1); // End date is next day for all-day event
+
+        const formatDate = (date: Date) => {
+            return date.toISOString().replace(/-|:|\.\d{3}/g, '');
+        };
+
+        const params = new URLSearchParams({
+            action: 'TEMPLATE',
+            text: `DUE: ${grant.title}`,
+            dates: `${formatDate(deadline)}/${formatDate(endDate)}`,
+            details: 'Grant deadline'
+        });
+
+        return `https://calendar.google.com/calendar/render?${params.toString()}`;
+    };
+
+    const handleAddToCalendar = () => {
+        const calendarUrl = createGoogleCalendarUrl(grant);
+        window.open(calendarUrl, '_blank');
     };
 
     const daysLeft = getDaysLeft(grant.deadline);
@@ -88,9 +112,7 @@ export function GrantCard({ grant }: GrantCardProps): React.ReactElement {
                 {grant.deadline && (
                     <button 
                         className="text-cardinal-red-dark hover:text-cardinal-red hover:font-bold transition-all duration-150"
-                        onClick={() => {
-                            console.log('Add to calendar clicked');
-                        }}
+                        onClick={handleAddToCalendar}
                     >
                         Add to calendar ↗
                     </button>

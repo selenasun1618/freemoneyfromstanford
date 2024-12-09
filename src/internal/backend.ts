@@ -32,7 +32,6 @@ export async function readDatabase() : Promise<GrantDatabase> {
     const DATABASE_PATH = rootRelativePath('database.json')
     if(CACHED_DATABASE === null) {
         let raw = await readFileContents<{[_: string]: RecordFmt}>(DATABASE_PATH)
-        console.log('Raw database loaded:', raw);
         CACHED_DATABASE = {}
         Object.keys(raw).forEach((key) => {
             let record : RecordFmt = raw[key];
