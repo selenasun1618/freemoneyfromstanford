@@ -41,7 +41,7 @@ export default function Home() {
         const fetchGrants = async () => {
             try {
                 const data = await readDatabase();
-                console.log('Fetched grants:', data);
+                console.log('Fetched grants');
                 setGrantDatabase(data);
             } catch (error) {
                 console.error('Error loading database:', error);
