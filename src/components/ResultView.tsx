@@ -1,6 +1,8 @@
+// ResultView.tsx
 import { Grant } from "@/internal/types";
 import { GrantCard } from '@/components/GrantCard';
-import { useMemo } from 'react';
+import { useMemo, useEffect, useState } from 'react';
+import { getSimilarGrants } from '@/utils/similarity';
 
 interface ResultViewProps {
     grants: Grant[];
@@ -8,20 +10,40 @@ interface ResultViewProps {
 }
 
 export function ResultView({ grants, searchQuery = "" }: ResultViewProps): React.ReactElement {
-    const sortedAndFilteredGrants = useMemo(() => {
-        let filteredGrants = searchQuery 
-            ? grants.filter(grant => 
-                grant.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                grant.description.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-            : grants;
+    const [similarGrantIds, setSimilarGrantIds] = useState<string[]>([]);
 
-        return filteredGrants.sort((a, b) => {
-            if (!a.deadline) return 1;
-            if (!b.deadline) return -1;
-            return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
-        });
-    }, [grants, searchQuery]);
+    useEffect(() => {
+        const fetchSimilarGrants = async () => {
+            if (searchQuery.trim()) {
+                const ids = await getSimilarGrants(searchQuery);
+                console.log('Received similar grant IDs:', ids);
+                setSimilarGrantIds(ids);
+            } else {
+                setSimilarGrantIds([]);
+            }
+        };
+
+        fetchSimilarGrants();
+    }, [searchQuery]);
+
+    const sortedAndFilteredGrants = useMemo(() => {
+        if (!searchQuery.trim()) {
+            // If no search query, sort by deadline as before
+            return grants.sort((a, b) => {
+                if (!a.deadline) return 1;
+                if (!b.deadline) return -1;
+                return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+            });
+        }
+
+        // Create a map for O(1) lookup of grant ids
+        const grantMap = new Map(grants.map(grant => [grant.id, grant]));
+        
+        // Return grants in the order of similarGrantIds
+        return similarGrantIds
+            .map(id => grantMap.get(id))
+            .filter((grant): grant is Grant => grant !== undefined); // Type guard to remove undefined grants
+    }, [grants, searchQuery, similarGrantIds]);
 
     return (
         <div className="container mx-auto px-8 pr-12">

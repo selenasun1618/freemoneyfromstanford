@@ -80,7 +80,7 @@ export default function Home() {
                             <div className="w-full max-w-4xl">
                                 <SearchInput value={searchQuery} onChange={setSearchQuery} />
                                 <p className="text-sm italic text-white mt-2 text-center">
-                                    Try searching by topic, amount, or eligibility [TODO: examples]
+                                    Examples: a guitar amp for a new band, a new student cafe to revive social life, compute resources for an AI experiment
                                 </p>
                             </div>
                         </div>
