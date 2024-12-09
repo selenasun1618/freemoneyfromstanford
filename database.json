@@ -1,6 +1,6 @@
 {
     "g1": {
-        "title": "SERI 2024 Research Fellowship",
+        "title": "SERI 2025 Research Fellowship",
         "description": "The Stanford Existential Risks Initiative will fund 10-week full-time research projects dedicated to mitigating existential risks, such as nuclear war, engineered pandemics, AI deployments, and environmental changes. The program emphasizes community building among researchers through speaker events, discussion groups, and social events. Students will work under the guidance of mentors including faculty members, postdoctoral scholars, or industry experts.",
         "eligibility": [
             "Undergraduate",
@@ -11,7 +11,7 @@
         "amount_min": 7500,
         "amount_max": 7500,
         "url": "https://docs.google.com/forms/d/e/1FAIpQLScLRbrn89CLK5I0YY8vajVXgkYfNBhJB_hNi1QW0bokt2bQtg/viewform",
-        "deadline": "2024-05-15T23:59:59-08:00",
+        "deadline": "2025-05-15T23:59:59-08:00",
         "next_cycle_start": ""
     },
     "g2": {
@@ -25,7 +25,7 @@
         "amount_min": 1000,
         "amount_max": 1000,
         "url": "https://hai.stanford.edu/research/fellowship-programs",
-        "deadline": "2024-05-08T23:59-08:00",
+        "deadline": "2025-05-08T23:59-08:00",
         "next_cycle_start": ""
     },
     "g3": {
@@ -38,7 +38,7 @@
         "amount_max": -1,
         "url": "https://hai.stanford.edu/research/fellowship-programs",
         "deadline": "",
-        "next_cycle_start": "2024-01-20T00:00-08:00"
+        "next_cycle_start": "2025-01-20T00:00-08:00"
     },
     "g4": {
         "title": "HAI Seed Grant Proposals",
@@ -52,7 +52,7 @@
         "amount_max": 75000,
         "url": "https://hai.stanford.edu/seed-research-grants",
         "deadline": "",
-        "next_cycle_start": "2024-06-01T23:59-08:00"
+        "next_cycle_start": "2025-06-01T23:59-08:00"
     },
     "g5": {
         "title": "SCI 2024 Equity Impact Research Grants",
@@ -65,17 +65,17 @@
         "amount_min": 50000,
         "amount_max": 100000,
         "url": "https://seedfunding.stanford.edu/opportunities/sci-2024-equity-impact-research-grants",
-        "deadline": "2024-05-03T17:00-08:00",
-        "next_cycle_start": "2024-03-03T00:00-08:00"
+        "deadline": "2025-05-03T17:00-08:00",
+        "next_cycle_start": "2025-03-03T00:00-08:00"
     },
     "g6": {
-        "title": "2024-2025 Stanford Impact Labs Design Fellowship",
+        "title": "Stanford Impact Labs Design Fellowship",
         "description": "Fellows participate in a monthly workshop, receive $50,000 in seed funding, and benefit from the specialized attention of Stanford Impact Labs professional staff who provide input on problem definition, partnerships, team design, and communication. The fellowship supports faculty, with funding and guidance, to conceptualize a new research project that seeks to develop tangible solutions to a social problem, by working in collaboration with an external partner. For the 2024-2025 cohort, the Stanford Doerr School of Sustainability (SDSS) is sponsoring up to 3 positions in the fellowship for SDSS faculty. The Institute for Advancing Just Societies is sponsoring up to 2 positions in the fellowships for projects that address inequalities related to race and ethnicity, broadly conceived, that register locally, nationally, or globally. Evaluation process and criteria are the same for all applicants. Fellowship Program Once a month, fellows gather for a three-hour, interactive, activity- and discussion-based workshop.",
         "eligibility": ["Faculty"],
         "amount_min": 50000,
         "amount_max": 50000,
-        "url": "https://impact.stanford.edu/offer/2024-2025-stanford-impact-labs-design-fellowship",
-        "deadline": "2024-05-20T23:59-08:00",
+        "url": "https://impact.stanford.edu/apply/open-applications",
+        "deadline": "2025-01-20T23:59-08:00",
         "next_cycle_start": ""
     },
     "g7": {
@@ -85,8 +85,8 @@
         "amountMin": 0,
         "amountMax": 1500,
         "url": "https://undergradresearch.stanford.edu/fund-your-project/explore-student-grants/conference",
-        "deadline": "2024-05-01T23:59-08:00",
-        "nextCycleStartDate": "2023-10-01T00:00-08:00"
+        "deadline": "2025-01-01T23:59-08:00",
+        "nextCycleStartDate": "2025-10-01T00:00-08:00"
     },
     "g8": {
         "title": "Chappell Lougee Scholarship",
@@ -116,7 +116,7 @@
         "amountMax": 1500,
         "url": "https://undergradresearch.stanford.edu/fund-your-project/explore-student-grants/small",
         "deadline": "",
-        "nextCycleStartDate": "2025-02-12T00:00-08:00"
+        "nextCycleStartDate": "2025-01-17T00:00-08:00"
       },
     "g11": {
         "title": "Major Grant",
@@ -126,6 +126,36 @@
         "amountMax": 9000,
         "url": "",
         "deadline": "",
-        "nextCycleStartDate": "2025-01-01T00:00-08:00"
+        "nextCycleStartDate": "2025-03-01T00:00-08:00"
+    },
+    "g12": {
+        "title": "Student Campus Engagement Mini-Grants",
+        "description": "The Office of Community Engagement is excited to announce the 2023-24 campus engagement mini-grants! These mini-grants foster creative ideas for new, exciting, and/or meaningful ways to connect and engage with one another. Your ideas-come-to-life build community and contribute to a vibrant campus life, providing opportunities for students to form new connections with people, places, and perspectives. For student-led engagement activities in the 2023-24 academic year intended to support broad-based engagement activities open to the entire student community that activate and enliven campus spaces, create excitement, and engage the community. Maximum $2,000 grant. Organizers may receive mini-grant funding support once for the year. New applications and applicants will be prioritized. Funds are available to all students (including those not acting on behalf of or affiliated with a VSO).",
+        "eligibility": ["Undergraduate", "Masters Student", "Coterm", "PhD", "Other"],
+        "amountMin": 0,
+        "amountMax": 2000,
+        "url": "bit.ly/student-minigrant-app",
+        "deadline": "2025-02-18T23:59:59-08:00",
+        "nextCycleStartDate": ""
+    },
+    "g13": {
+        "title": "Robotics Club Funding",
+        "description": "Rolling funding for student robotics projects.",
+        "eligibility": ["Undergraduate", "Masters Student", "Coterm", "PhD", "Other"],
+        "amountMin": 0,
+        "amountMax": 10000,
+        "url": "stanfordstudentrobotics.org",
+        "deadline": "",
+        "nextCycleStartDate": ""
+    },
+    "g14": {
+        "title": "HAI Student Affinity Groups",
+        "description": "HAI Student Affinity Groups are small teams of interdisciplinary Stanford students (undergraduates, graduates) or postdocs who have a shared interest in a topic related to the development or study of human-centered AI. Affinity Groups provide a space for students to share ideas, develop intellectually and strengthen the community of future leaders dedicated to building AI that benefits all of humanity. Funding of up to $1,000 for the academic year to spend on small quarterly or biweekly gatherings, such as: workshopping lunches, student-hosted speakers, book discussions or discussion series. Inside scoop on HAI events, research, publications, and volunteer opportunities.",
+        "eligibility": ["Undergraduate", "Masters Student", "Coterm", "PhD", "Other"],
+        "amountMin": 0,
+        "amountMax": 1000,
+        "url": "https://hai.stanford.edu/research/student-affinity-groups",
+        "deadline": "2025-08-23T23:59:59-08:00",
+        "nextCycleStartDate": ""
     }
 }

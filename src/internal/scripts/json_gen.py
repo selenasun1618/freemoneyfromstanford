@@ -6,55 +6,83 @@ def main():
     today_date = datetime.date.today()
 
     text = """
-    Major Grant
-Major grants support student-driven, full-time immersive projects supported by a faculty mentor, with priority given to Juniors.
+    ngagement Mini-Grants Info Sheet
 
-Major Grants provide a 10-week stipend in support of full-time immersive Summer project commitments
-Most Major Grants are awarded to students beginning an honors thesis, a senior project in the arts, or senior synthesis project between their junior and senior years.
-Decisions are typically made within 6 weeks 
-Funding is usually disbursed Week 1 of the quarter in which the project is executed 
-Timeline
-Application Deadline: Friday, March 1, 2024, 11:59pm PST 
-Faculty Mentor Letter Deadline: Friday, March 8, 2024, 11:59pm PST
-Project Execution: Summer 2024 
-Stipend: $7500, with a need-based supplement (of up to $1500) for eligible students. For details on the stipend structure, visit our Constructing a Budget page.
-Where to Start
-Students interested in applying for a Major Grant should connect with their Faculty Mentor regarding their proposed project - Faculty Mentors should meet required eligibility criteria
-Students should schedule a meeting with their Undergraduate Advising Director (UAD) as they write their proposal. UADs are well-versed with all VPUE Undergraduate Research grants
-Application Guidelines
-For the proposal:
-Major Grant proposals should not exceed a word count of 2,500.
-The proposal summary, reference list, and appendices do not count toward the word count.
-Read through the Writing a Project Proposal site for specific guidelines on how to write a grant proposal. 
-Additional materials (to be submitted along with the proposal):
-Human Subjects Research - IRB protocol submission: If you are doing a project involving interviewing, observing, or otherwise working with human subjects, you must determine if your project requires Institutional Review Board (IRB) review.  You must upload proof that you submitted your IRB protocol in your grant application in order for your proposal to be considered. Federal law and Stanford University Policy require IRB approval before human subjects research can begin.
-Click here to read more about the Human Subjects requirement.
-Not sure if your project needs IRB review?  Contact Stanford’s IRB at irbnonmed@stanford.edu to consult with them. 
-Animal Subjects Research - one-paragraph appendix: If your research involves animal subjects of any kind (vertebrate or invertebrate), you must include an Animal Subjects Research Appendix in your application. Federal law and Stanford University policy require APLAC/IACUC approval before animal subjects research can begin. Click here to read more about the Animal Subjects requirement.
-Field contact letter: For students interviewing individuals and/or partnering with off-campus organizations for their projects (e.g. archives, hospitals, nonprofits, community organizations), you must submit in your grant application a brief letter of support from your field contact to demonstrate that you have established communication and are equipped to execute the project with their support.
-Field Contact letters should be a brief note (screenshot of email correspondence is fine) that includes the following:
-Date of correspondence
-Indicates access to a research resource and clearly states what that resource is
-Contact information of your primary contact
-Students with multiple field contacts: Only one letter is required, but note that the Review Committee may request additional letters at the time of review
-International Travel Safety Plan: A project or conference that involves international travel is required to have an International Travel Safety Plan. It must be included as an appendix in the grant proposal. For instructions on completing the travel plan, go to our International Travel webpage.
-Read through the Go Apply site for more detailed information on the application materials you will need to assemble. Applicable links are as follows:
-Requesting a Faculty Letter of Support
-Writing a Project Proposal
-Constructing a Budget
-Major Grant Policies & Eligibility
-**In addition to the below criteria specific to the Major Grant, all undergraduate students must meet our general eligibility requirements.** 
+    Why Student Campus Engagement Mini-Grants?
 
-Priority given to Juniors
-Frosh and Sophomores are encouraged to Explore Departmental Funding
-Seniors who have not previously received a Major Grant are eligible but will have lower priority
-Co-terms who have not conferred their undergraduate degree may apply if the project fits into their undergraduate academic trajectory, e.g., honors thesis, capstone project, etc. Students paying graduate tuition are ineligible.
-Co-term students should read this Registrar webpage for details on when you are switched to graduate tuition.
-Students may not be on a Leave of Absence (LOA) while using grant funding. Students who have been on LOA for 3 consecutive quarters prior to the funding period are not eligible (e.g., Autumn, Winter, and Spring).
-Time commitment: The Major Grant project is a full-time opportunity. Full-time engagement is defined as 35+ hours per week over the 10-week summer quarter. Students and faculty mentors should confer and agree upon any significant time commitments outside of this defined project engagement.
-Students may not receive both academic units and a stipend for any single project activity.
-Major Grant recipients are not permitted to engage in another full-time internship, job, or volunteer opportunity (whether funded by Stanford or otherwise), unless their faculty mentors or program coordinators have approved these arrangements.
-As a reminder, VPUE grant recipients who are planning on concurrently participating in another Stanford program should also abide by the funding and program policies of the sponsoring unit.
+    The Office of Community Engagement is excited to announce the 2023-24 campus engagement mini-grants! These mini-grants foster creative ideas for new, exciting, and/or meaningful ways to connect and engage with one another. 
+
+    Your ideas-come-to-life build community and contribute to a vibrant campus life, providing opportunities for students to form new connections with people, places, and perspectives.
+    
+    We encourage all students with ideas and the motivation to make them happen to apply!
+
+
+
+    Guidelines:
+
+    About
+    For student-led engagement activities in the 2023-24 academic year
+    Intended to support broad-based engagement activities open to the entire student community that activate and enliven campus spaces, create excitement, and engage the community
+
+
+
+    Funding
+    Maximum $2,000 grant
+    Organizers may receive mini-grant funding support once for the year. New applications and applicants will be prioritized
+    Funds are available to all students (including those not acting on behalf of or affiliated with a VSO)
+    Funding uses include, for example:
+    Honorariums (fees payable to speakers, teachers, instructors)
+    Event Services orders
+    Vendor invoices
+    Event supplies/rentals
+    Food/Catering
+    Funding will not support:
+    Alcohol
+    Purchasing of equipment or products that could otherwise be rented
+    T-shirts or giveaways (if only for an organization and unrelated to the event)
+    Donations or gifts to groups, organizations, or individuals
+    Reimbursements for personally paid expenses
+    Staff or student salaries
+    Mini-grant recipients will work with staff members from either Campus Engagement and/or the Office of Student Engagement to reserve venues, handle contracts, pay invoices, make purchases, etc.
+    Funding will be prioritized for novel engagement activities and/or those that would otherwise not be possible without mini-grant support
+    Mini-grants do not retroactively fund engagement activities. Engagement activities with a target date before the decision funding week will not be eligible to receive funding
+
+
+    Planning
+    Location:
+    Intended for in-person engagement activities on the Stanford campus. 
+    Not intended for fully remote or off-campus engagement activities.
+    Scope:
+    Applicants are encouraged to submit engagement activities that engage the broader student community
+    Engagement activities cannot be club/group exclusive
+    Event Organizing:
+    Event planners must adhere to the event planning policies/guidelines 
+    Students whose applications are approved will be the primary engagement activity organizers and will work with staff from Campus Engagement and/or the Office of Student Engagement to plan and carry out the event for which funding was granted
+    ‘Independent’ applicants are strongly encouraged to have at least three co-organizers
+    Timing:
+    Engagement activities are to occur within the quarter designated by the application cycle (e.g. “Fall Quarter applications,” etc.)
+
+
+    Application & Review Process
+    Before applying, please review these guidelines and the application questions carefully 
+    Application Cycles
+    For Spring Quarter Engagement Activities:
+    Application open February 5, 2024 – February 18, 2024
+    Decisions announced week of Feb. 26
+    Applications are open until 11:59 p.m. on the final day of the cycle
+    The review committee will not consider partially completed applications or those missing required information. You are encouraged to apply in the next cycle, with a full and complete application.
+    All decisions are final.
+
+
+
+    To apply, visit:
+    bit.ly/student-minigrant-app 
+
+
+
+    Questions? 
+    Email campusengagement@stanford.edu
+
     """
 
 
@@ -147,7 +175,7 @@ As a reminder, VPUE grant recipients who are planning on concurrently participat
     completion = client.chat.completions.create(
         messages=[
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": text}
+            {"role": "user", "content": prompting}
             ],
         model="gpt-4-turbo-preview", 
     )
